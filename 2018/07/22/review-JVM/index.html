@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="复习下关于JVM的知识~">
+<meta name="keywords" content="Java,JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="review JVM">
+<meta property="og:url" content="https:&#x2F;&#x2F;cnhkblog.top&#x2F;2018&#x2F;07&#x2F;22&#x2F;review-JVM&#x2F;index.html">
+<meta property="og:site_name" content="萍水相逢 互道安好">
+<meta property="og:description" content="复习下关于JVM的知识~">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-02T07:29:31.134Z">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>review JVM</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/06/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2018/07/22/review-JVM/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2018/07/22/review-JVM/&text=review JVM" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2018/07/22/review-JVM/&title=review JVM" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2018/07/22/review-JVM/&is_video=false&description=review JVM" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=review JVM&body=Check out this article: https://cnhkblog.top/2018/07/22/review-JVM/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2018/07/22/review-JVM/&title=review JVM" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2018/07/22/review-JVM/&title=review JVM" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2018/07/22/review-JVM/&title=review JVM" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2018/07/22/review-JVM/&title=review JVM" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2018/07/22/review-JVM/&name=review JVM&description=&lt;p&gt;复习下关于JVM的知识&lt;del&gt;~&lt;/del&gt;&lt;/p&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#对象的访问定位的两种方式。"><span class="toc-number">1.</span> <span class="toc-text">对象的访问定位的两种方式。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何判断对象是否死亡（两种方法）。"><span class="toc-number">2.</span> <span class="toc-text">如何判断对象是否死亡（两种方法）。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的介绍一下强引用、软引用、弱引用、虚引用（虚引用与软引用和弱引用的区别、使用软引用能带来的好处）。"><span class="toc-number">3.</span> <span class="toc-text">简单的介绍一下强引用、软引用、弱引用、虚引用（虚引用与软引用和弱引用的区别、使用软引用能带来的好处）。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾收集有哪些算法，各自的特点？"><span class="toc-number">4.</span> <span class="toc-text">垃圾收集有哪些算法，各自的特点？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HotSpot为什么要分为新生代和老年代？"><span class="toc-number">5.</span> <span class="toc-text">HotSpot为什么要分为新生代和老年代？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的垃圾回收器有那些？"><span class="toc-number">6.</span> <span class="toc-text">常见的垃圾回收器有那些？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍一下CMS-G1收集器。"><span class="toc-number">7.</span> <span class="toc-text">介绍一下CMS,G1收集器。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Minor-GC和Full-GC-有什么不同呢？"><span class="toc-number">8.</span> <span class="toc-text">Minor GC和Full GC 有什么不同呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM调优的常见命令行工具有哪些？"><span class="toc-number">9.</span> <span class="toc-text">JVM调优的常见命令行工具有哪些？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单说说类加载过程，里面执行了哪些操作？"><span class="toc-number">10.</span> <span class="toc-text">简单说说类加载过程，里面执行了哪些操作？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对类加载器有了解吗？"><span class="toc-number">11.</span> <span class="toc-text">对类加载器有了解吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是双亲委派模型？"><span class="toc-number">12.</span> <span class="toc-text">什么是双亲委派模型？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#双亲委派模型的工作过程以及使用它的好处。"><span class="toc-number">13.</span> <span class="toc-text">双亲委派模型的工作过程以及使用它的好处。</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        review JVM
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">萍水相逢 互道安好</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-07-22T13:04:35.000Z" itemprop="datePublished">2018-07-22</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/JVM/" rel="tag">JVM</a>, <a class="tag-link" href="/tags/Java/" rel="tag">Java</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>复习下关于JVM的知识<del>~</del></p>
+<a id="more"></a>
+
+<p>##介绍下Java内存区域（运行时数据区）。</p>
+<p>JVM运行时数据区分为方法区、堆内存、虚拟机栈、本地方法栈、程序计数器这五个部分。方法区和堆内存是线程共享的，其他三个区域是线程私有的，其中只有程序计数器没有规定OOM的异常。</p>
+<ul>
+<li>方法区一般存放着已被虚拟机加载的类信息、常量、静态变量、及时编译器编译后的代码数据等。</li>
+<li>堆内存一般用于存储实例化后的对象，通常来说又分为新生代和老年代。新生代又分为Eden区和survivor区，他们的大小比例默认为8：2，可以通过-XX:survivorRatio来自定义。对象一般都是在新生代分配内存空间，而老年代一般存放着长期存活或者占用内存较大的对象。</li>
+<li>虚拟机栈通常存放着指向实例对象的引用、局部变量、方法返回地址、动态链接等信息，其生命周期和线程相同。如果栈请求的深度超过了虚拟机所允许的最大深度，此时JVM会抛出StackOverflowError；如果扩展时无法分配到足够的内存，会抛出OOM</li>
+<li>本地方法栈和虚拟机栈类似，不过本地方法栈是为JVM执行本地方法服务的，该区域也会抛出栈溢出和内存溢出的异常。</li>
+<li>程序计数器的作用是为了线程切换后能够恢复到正确的执行位置，不过如果执行的是native方法，对应的程序计数器是为空的</li>
+</ul>
+<h2 id="对象的访问定位的两种方式。"><a href="#对象的访问定位的两种方式。" class="headerlink" title="对象的访问定位的两种方式。"></a>对象的访问定位的两种方式。</h2><ol>
+<li><strong>通过句柄访问，句柄中存储着对象实例数据和类型数据的地址，此时堆内存中需要维护一个句柄池</strong></li>
+</ol>
+<p>使用句柄最大的好处就是移动对象时，reference不需要改变， 改变的只是句柄中的对象地址；</p>
+<ol start="2">
+<li>通过指针访问，此时引用中存储的就是对象的地址</li>
+</ol>
+<p>而指针的最大好处就是速度更快</p>
+<h2 id="如何判断对象是否死亡（两种方法）。"><a href="#如何判断对象是否死亡（两种方法）。" class="headerlink" title="如何判断对象是否死亡（两种方法）。"></a>如何判断对象是否死亡（两种方法）。</h2><ol>
+<li><p>引用计数法。</p>
+<p>引用计数法简单高效，当一个对象被引用时其引用计数器就+1，但是这不能解决循环引用的问题。比如类A中的字段引用了类B，类B中也有个字段引用了类A，那么这两个类的对象就永远不会被回收。</p>
+</li>
+<li><p>可达性分析，也就是分析GC Roots的引用链</p>
+<p>如果对象在GC Roots中不可达、没有引用链，那么说明这个对象是不可用的，可以被垃圾回收的。</p>
+<p><strong>可做GC Roots的对象</strong></p>
+<ul>
+<li>虚拟机栈中所引用的对象</li>
+<li>本地方法栈中所引用的对象</li>
+<li>类中的静态属性所引用的对象</li>
+<li>方法区常量引用的对象</li>
+</ul>
+</li>
+</ol>
+<h2 id="简单的介绍一下强引用、软引用、弱引用、虚引用（虚引用与软引用和弱引用的区别、使用软引用能带来的好处）。"><a href="#简单的介绍一下强引用、软引用、弱引用、虚引用（虚引用与软引用和弱引用的区别、使用软引用能带来的好处）。" class="headerlink" title="简单的介绍一下强引用、软引用、弱引用、虚引用（虚引用与软引用和弱引用的区别、使用软引用能带来的好处）。"></a>简单的介绍一下强引用、软引用、弱引用、虚引用（虚引用与软引用和弱引用的区别、使用软引用能带来的好处）。</h2><ol>
+<li><p>强引用：一般是new出来对象的引用，只要存在，就不会被回收</p>
+</li>
+<li><p>软引用：一般是用来描述可用但又不是必须的对象</p>
+</li>
+<li><p>弱引用：用来描述非必须的对象，会在垃圾回收的被回收</p>
+</li>
+<li><p>虚引用：是一种最弱的引用关系，唯一的目的是让这个对象在垃圾回收的时候收到一个系统通知</p>
+</li>
+</ol>
+<h2 id="垃圾收集有哪些算法，各自的特点？"><a href="#垃圾收集有哪些算法，各自的特点？" class="headerlink" title="垃圾收集有哪些算法，各自的特点？"></a>垃圾收集有哪些算法，各自的特点？</h2><p>垃圾回收目前有四种算法分别为标记-清除、复制算法、标记-整理、分代收集算法</p>
+<ol>
+<li>标记-清理：存在效率问题和空间问题，清理完后内存中会产生大量不连续的空间碎片，影响下次对象的分配，可能导致提前触发GC</li>
+<li>复制算法：实现简单，效率高效，但可能会造成内存空间的浪费</li>
+<li>标记-整理：每次标记完可回收对象，让<strong>存活的对象向一端移动</strong>，然后直接清理掉边界以外的内存。这个算法就解决了标记-清理算法的空间问题</li>
+<li>分代收集：根据各自区域的特点使用不同的回收算法。如年轻代，对象一般朝生夕死，所以会采用复制算法，而老年代对象存活时间较久，一般采用标记-整理算法，这样也能保证老年代中有连续较大的内存空间，方便分配担保</li>
+</ol>
+<h2 id="HotSpot为什么要分为新生代和老年代？"><a href="#HotSpot为什么要分为新生代和老年代？" class="headerlink" title="HotSpot为什么要分为新生代和老年代？"></a>HotSpot为什么要分为新生代和老年代？</h2><p>为了方便垃圾回收时使用对应的回收算法。年轻代中对象一般刚创建后就会被回收，此时采用复制算法只需要复制少量对象，效率高，但是这并不适用老年代中存活交久的对象，当复制较多对象时，复制算法的效率就会很低，此时采用标记-整理的算法更加适合老年代。</p>
+<h2 id="常见的垃圾回收器有那些？"><a href="#常见的垃圾回收器有那些？" class="headerlink" title="常见的垃圾回收器有那些？"></a>常见的垃圾回收器有那些？</h2><ol>
+<li>Serial串行收集器：这是一个单进程的、适用于新生代的收集器，采用复制算法，每次回收的时候需要暂停其他的工作线程，也就是需要 STOP THE WORLD。</li>
+<li>ParNew收集器：是Serial收集器的多线程版本，也是采用复制算法，目前只有他能与CMS收集器一起工作</li>
+<li>Parallel Scavenge收集器：是一个并行的、新生代的收集器，采用复制算法，他的特点是达到一个可控制的吞吐量</li>
+<li>CMS收集器：是一款真正意思上的并行的、老年代的收集器，采用了标记-清理算法。</li>
+<li>Serial Old 收集器：是Serial收集器的老年代版本，采用标记-整理算法。</li>
+<li>Parallel Old收集器：是Parallel Scavenge的老年代版本，采用标记-整理算法。</li>
+<li>G1收集器：</li>
+</ol>
+<h2 id="介绍一下CMS-G1收集器。"><a href="#介绍一下CMS-G1收集器。" class="headerlink" title="介绍一下CMS,G1收集器。"></a>介绍一下CMS,G1收集器。</h2><p><em>CMS</em></p>
+<p>是一款真正意思上的并行的、老年代的收集器，特点是并发收集、低停顿。采用了标记-清理算法。收集分为四个过程</p>
+<ol>
+<li>初始标记：标记没有关联在GC Roots引用链上的对象</li>
+<li>并发标记：GC Roots Tracing的过程</li>
+<li>重新标记：修正并发标记期间用户线程继续运行而导致的标记的变动</li>
+<li>并发清理：把标记的对象回收</li>
+</ol>
+<p>但是也有三个明显的缺点：</p>
+<ol>
+<li>对CPU资源非常敏感</li>
+<li>无法处理浮动垃圾</li>
+<li>因为基于标记-清理算法，因此会产生大量的不连续的空间。不过可以通过开启一个参数让他在Full GC之前进行一次内存整理</li>
+</ol>
+<p><em>G1</em></p>
+<p><a href="https://tech.meituan.com/g1.html" target="_blank" rel="noopener">美团技术团队的分析</a></p>
+<p><a href="http://ifeve.com/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3g1%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/" target="_blank" rel="noopener">ifeve解析</a></p>
+<h2 id="Minor-GC和Full-GC-有什么不同呢？"><a href="#Minor-GC和Full-GC-有什么不同呢？" class="headerlink" title="Minor GC和Full GC 有什么不同呢？"></a>Minor GC和Full GC 有什么不同呢？</h2><ul>
+<li>Minor GC是发生在年轻代的GC，发生频率高，回收速度快</li>
+<li>Full GC发生在老年代的GC，发生的时候一般伴随着一次Minor GC，速度较慢，一般是比Minor GC慢十倍</li>
+</ul>
+<h2 id="JVM调优的常见命令行工具有哪些？"><a href="#JVM调优的常见命令行工具有哪些？" class="headerlink" title="JVM调优的常见命令行工具有哪些？"></a>JVM调优的常见命令行工具有哪些？</h2><p>Linux：top、iostat、pidstat、uptime</p>
+<p>Java自带：jstack、jinfo、jstat</p>
+<p>##简单介绍一下Class类文件结构（常量池主要存放的是那两大常量？Class文件的继承关系是如何确定的？字段表、方法表、属性表主要包含那些信息？）</p>
+<ol>
+<li><p>常量池一般存放符号引用和字面量</p>
+<ul>
+<li><p>字面量：一般指文本字符串、声明为final的常量</p>
+</li>
+<li><p>符号引用：</p>
+<ul>
+<li>类和接口的全限定名</li>
+<li>字段的名称和描述符</li>
+<li>方法的名称和描述符</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ol start="2">
+<li><p>类索引、父类索引和接口索引集合确定了Class文件的继承关系</p>
+</li>
+<li><ul>
+<li>字段表用于描述类或接口中声明的变量</li>
+<li>方法表的结构与字段表一样</li>
+<li>属性表包含了类文件或者接口所定义的属性的基本信息</li>
+</ul>
+</li>
+</ol>
+<h2 id="简单说说类加载过程，里面执行了哪些操作？"><a href="#简单说说类加载过程，里面执行了哪些操作？" class="headerlink" title="简单说说类加载过程，里面执行了哪些操作？"></a>简单说说类加载过程，里面执行了哪些操作？</h2><p>类加载一般分为七个过程：</p>
+<ol>
+<li>加载<ul>
+<li>通过一个类的全限定名来加载对应的二进制流</li>
+<li>将这个二进制流代表的静待存储结构转化为方法区的运行时数据结构</li>
+<li>在Java堆中生成一个Class对象作为方法区访问这些数据的入口</li>
+</ul>
+</li>
+<li>验证<ul>
+<li>一般完成四个阶段的验证<ol>
+<li>文件格式验证：验证二进制流符合虚拟机的要求，比如前四个字节为cafebaby，第五第六个字节为次版本号，第七第八个字节为主版本号</li>
+<li>元数据验证：就是对类的元数据信息进行语义校验</li>
+<li>字节码验证：对数据流和控制流分析，确保不会危害虚拟机</li>
+<li>符号引用验证：对常量池中的各种符号引用的校验</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>准备<ul>
+<li>对类变量设置初始值的过程，这个初始值是数据类型的默认值，而不是为类变量进行初始化。比如public static int a =3，此时准备阶段只是将int值赋值为0</li>
+</ul>
+</li>
+<li>解析<ul>
+<li>虚拟机将常量池中的符号引用转化为直接引用的过程<ol>
+<li>类或接口的解析</li>
+<li>字段解析</li>
+<li>类方法解析</li>
+<li>接口方法解析</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>初始化<ul>
+<li>此阶段真正开始执行类中定义的Java代码</li>
+</ul>
+</li>
+<li>使用</li>
+<li>卸载</li>
+</ol>
+<h2 id="对类加载器有了解吗？"><a href="#对类加载器有了解吗？" class="headerlink" title="对类加载器有了解吗？"></a>对类加载器有了解吗？</h2><p>类加载器是一个代码模块，他的作用是通过类的全限定名来加载对应类的二进制流。类加载器分为三类：</p>
+<ul>
+<li><p>启动类加载器</p>
+<p>加载JAVA_HOME/lib目录下的类</p>
+</li>
+<li><p>扩展类加载器</p>
+<p>加载JAVA_HOME/lib/ext目录下的类</p>
+</li>
+<li><p>应用程序扩展类</p>
+<p>一般用于加载用户路径上所指定的类库</p>
+</li>
+</ul>
+<h2 id="什么是双亲委派模型？"><a href="#什么是双亲委派模型？" class="headerlink" title="什么是双亲委派模型？"></a>什么是双亲委派模型？</h2><p>双亲委派模型就是除了顶层的启动类加载器外，其余的加载器都应当有自己的父类加载器，是一种类加载器的关系模型。</p>
+<h2 id="双亲委派模型的工作过程以及使用它的好处。"><a href="#双亲委派模型的工作过程以及使用它的好处。" class="headerlink" title="双亲委派模型的工作过程以及使用它的好处。"></a>双亲委派模型的工作过程以及使用它的好处。</h2><ol>
+<li><p>工作过程</p>
+<p>一个类加载器收到类的加载请求，会将请求委托给父类加载器，每层加载器都是如此，直到委托给启动类加载器，如果父类加载器反馈无法加载，那么子加载器才会尝试自己加载</p>
+</li>
+<li><p>好处</p>
+<p>Java类随着它的类加载器有了一种带优先级的层级关系。比如你自己建了一个Object类与Java自带的Object类重名了，虽然可以正常编译，但是永远无法被加载运行。这样就保证了代码的稳定性。</p>
+</li>
+</ol>
+<blockquote>
+<p><em>大部分正义感都是虚伪的 聊胜于无   —————————————沃德彭尤·胡某</em></p>
+</blockquote>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#对象的访问定位的两种方式。"><span class="toc-number">1.</span> <span class="toc-text">对象的访问定位的两种方式。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何判断对象是否死亡（两种方法）。"><span class="toc-number">2.</span> <span class="toc-text">如何判断对象是否死亡（两种方法）。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的介绍一下强引用、软引用、弱引用、虚引用（虚引用与软引用和弱引用的区别、使用软引用能带来的好处）。"><span class="toc-number">3.</span> <span class="toc-text">简单的介绍一下强引用、软引用、弱引用、虚引用（虚引用与软引用和弱引用的区别、使用软引用能带来的好处）。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾收集有哪些算法，各自的特点？"><span class="toc-number">4.</span> <span class="toc-text">垃圾收集有哪些算法，各自的特点？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HotSpot为什么要分为新生代和老年代？"><span class="toc-number">5.</span> <span class="toc-text">HotSpot为什么要分为新生代和老年代？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的垃圾回收器有那些？"><span class="toc-number">6.</span> <span class="toc-text">常见的垃圾回收器有那些？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍一下CMS-G1收集器。"><span class="toc-number">7.</span> <span class="toc-text">介绍一下CMS,G1收集器。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Minor-GC和Full-GC-有什么不同呢？"><span class="toc-number">8.</span> <span class="toc-text">Minor GC和Full GC 有什么不同呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM调优的常见命令行工具有哪些？"><span class="toc-number">9.</span> <span class="toc-text">JVM调优的常见命令行工具有哪些？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单说说类加载过程，里面执行了哪些操作？"><span class="toc-number">10.</span> <span class="toc-text">简单说说类加载过程，里面执行了哪些操作？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对类加载器有了解吗？"><span class="toc-number">11.</span> <span class="toc-text">对类加载器有了解吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是双亲委派模型？"><span class="toc-number">12.</span> <span class="toc-text">什么是双亲委派模型？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#双亲委派模型的工作过程以及使用它的好处。"><span class="toc-number">13.</span> <span class="toc-text">双亲委派模型的工作过程以及使用它的好处。</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2018/07/22/review-JVM/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2018/07/22/review-JVM/&text=review JVM" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2018/07/22/review-JVM/&title=review JVM" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2018/07/22/review-JVM/&is_video=false&description=review JVM" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=review JVM&body=Check out this article: https://cnhkblog.top/2018/07/22/review-JVM/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2018/07/22/review-JVM/&title=review JVM" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2018/07/22/review-JVM/&title=review JVM" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2018/07/22/review-JVM/&title=review JVM" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2018/07/22/review-JVM/&title=review JVM" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2018/07/22/review-JVM/&name=review JVM&description=&lt;p&gt;复习下关于JVM的知识&lt;del&gt;~&lt;/del&gt;&lt;/p&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 qianhangkang
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'qianhangkang';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

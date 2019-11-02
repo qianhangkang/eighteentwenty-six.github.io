@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="微小工具叫 git 。">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于git的一些问题">
+<meta property="og:url" content="https:&#x2F;&#x2F;cnhkblog.top&#x2F;2019&#x2F;11&#x2F;02&#x2F;%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98&#x2F;index.html">
+<meta property="og:site_name" content="萍水相逢 互道安好">
+<meta property="og:description" content="微小工具叫 git 。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-02T06:34:27.362Z">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>关于git的一些问题</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/02/HTML%E8%BD%ACPDF%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/07/22/review-JVM/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&text=关于git的一些问题" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&title=关于git的一些问题" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&is_video=false&description=关于git的一些问题" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=关于git的一些问题&body=Check out this article: https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&title=关于git的一些问题" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&title=关于git的一些问题" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&title=关于git的一些问题" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&title=关于git的一些问题" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&name=关于git的一些问题&description=&lt;p&gt;微小工具叫 git &lt;del&gt;。&lt;/del&gt;&lt;/p&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#如何删除本地未追踪的文件"><span class="toc-number">1.</span> <span class="toc-text">如何删除本地未追踪的文件</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        关于git的一些问题
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">萍水相逢 互道安好</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-11-02T06:29:26.000Z" itemprop="datePublished">2019-11-02</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/git/" rel="tag">git</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>微小工具叫 git <del>。</del></p>
+<a id="more"></a>
+
+
+
+<p>在本地有一个提交了很久的master分支，没有维护到远程服务器，突然想起github的私有仓库已经免费，于是准备提交到服务器上。</p>
+<p>OK，在github上创建了一个repository，在网页上初始化了一个README文件，远程master分支有了第一次的initial commit。</p>
+<p>在自己本地文件夹下添加远程库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@github.com:&lt;your account&gt;/&lt;your repository&gt;.git</span><br></pre></td></tr></table></figure>
+
+<p>没有输出，成功添加远程库。</p>
+<p>习惯性<code>git pull</code></p>
+<p>控制台回显如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">warning: no common commits</span><br><span class="line">remote: Enumerating objects: 3, done.</span><br><span class="line">remote: Counting objects: 100% (3/3), done.</span><br><span class="line">remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0</span><br><span class="line">Unpacking objects: 100% (3/3), done.</span><br><span class="line">From github.com:&lt;your account&gt;/&lt;your repository&gt;</span><br><span class="line"> * [new branch]      master     -&gt; origin/master</span><br><span class="line">There is no tracking information for the current branch.</span><br><span class="line">Please specify which branch you want to merge with.</span><br><span class="line">See git-pull(1) for details.</span><br><span class="line"></span><br><span class="line">    git pull &lt;remote&gt; &lt;branch&gt;</span><br><span class="line"></span><br><span class="line">If you wish to set tracking information for this branch you can do so with:</span><br><span class="line"></span><br><span class="line">    git branch --set-upstream-to=origin/&lt;branch&gt; master</span><br></pre></td></tr></table></figure>
+
+<p>OK，git好像不知道本地master与origin/master的关联关系</p>
+<p>执行<code>git branch --set-upstream-to=origin/&lt;branch填你自己远程的branch哦~&gt; master</code></p>
+<p>没有输出，成功关联本地master与远程master</p>
+<p>再执行<code>git pull</code></p>
+<p>控制台回显如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fatal: refusing to merge unrelated histories</span><br></pre></td></tr></table></figure>
+
+<p>嗷，fatal，拒绝merge不相关的历史</p>
+<p>也是，远程master的提交记录只有initial commit，而我本地分支却有一长串自己的提交，git认为这是两个不同的项目，无法提交。</p>
+<p>那就强制合并</p>
+<p>执行<code>git pull origin master --allow-unrelated-histories</code></p>
+<p>将远程master pull到本地master，允许不相关历史的merge</p>
+<p>没有输出，成功merge</p>
+<p>此时输入<code>git log</code>，可以看到远程master的提交已经合并打本地分支</p>
+<p><code>git push</code>大功告成~</p>
+<h1 id="如何删除本地未追踪的文件"><a href="#如何删除本地未追踪的文件" class="headerlink" title="如何删除本地未追踪的文件"></a>如何删除本地未追踪的文件</h1><p><code>git clean -fd</code>将未追踪的文件和目录都删除</p>
+<blockquote>
+<p> 大部分正义感都是虚伪的 聊胜于无 —————————————沃德彭尤·胡某</p>
+</blockquote>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#如何删除本地未追踪的文件"><span class="toc-number">1.</span> <span class="toc-text">如何删除本地未追踪的文件</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&text=关于git的一些问题" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&title=关于git的一些问题" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&is_video=false&description=关于git的一些问题" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=关于git的一些问题&body=Check out this article: https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&title=关于git的一些问题" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&title=关于git的一些问题" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&title=关于git的一些问题" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&title=关于git的一些问题" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2019/11/02/%E5%85%B3%E4%BA%8Egit%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/&name=关于git的一些问题&description=&lt;p&gt;微小工具叫 git &lt;del&gt;。&lt;/del&gt;&lt;/p&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 qianhangkang
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'qianhangkang';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="整理spring注解~">
+<meta name="keywords" content="Java,Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring相关注解笔记">
+<meta property="og:url" content="https:&#x2F;&#x2F;cnhkblog.top&#x2F;2019&#x2F;11&#x2F;02&#x2F;Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0&#x2F;index.html">
+<meta property="og:site_name" content="萍水相逢 互道安好">
+<meta property="og:description" content="整理spring注解~">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-02T06:47:29.473Z">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Spring相关注解笔记</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/02/IO%E6%A8%A1%E5%9E%8B%E5%8F%8A%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E9%98%BB%E5%A1%9E%E9%9D%9E%E9%98%BB%E5%A1%9E/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&text=Spring相关注解笔记" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&title=Spring相关注解笔记" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&is_video=false&description=Spring相关注解笔记" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Spring相关注解笔记&body=Check out this article: https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&title=Spring相关注解笔记" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&title=Spring相关注解笔记" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&title=Spring相关注解笔记" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&title=Spring相关注解笔记" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&name=Spring相关注解笔记&description=&lt;p&gt;整理spring注解~&lt;/p&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Autowired"><span class="toc-number">1.</span> <span class="toc-text">@Autowired</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Qualifier"><span class="toc-number">2.</span> <span class="toc-text">@Qualifier</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AliasFor"><span class="toc-number">3.</span> <span class="toc-text">@AliasFor</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Schedule"><span class="toc-number">4.</span> <span class="toc-text">@Schedule</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring如何实现-Schedule"><span class="toc-number">4.1.</span> <span class="toc-text">Spring如何实现@Schedule</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Async"><span class="toc-number">5.</span> <span class="toc-text">@Async</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PostConstruct"><span class="toc-number">6.</span> <span class="toc-text">@PostConstruct</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Retryable"><span class="toc-number">7.</span> <span class="toc-text">@Retryable</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Spring相关注解笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">萍水相逢 互道安好</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-11-02T06:45:21.000Z" itemprop="datePublished">2019-11-02</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Java/" rel="tag">Java</a>, <a class="tag-link" href="/tags/Spring/" rel="tag">Spring</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>整理spring注解~</p>
+<a id="more"></a>
+
+<h1 id="Autowired"><a href="#Autowired" class="headerlink" title="@Autowired"></a>@Autowired</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(&#123;ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE&#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Autowired &#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Declares whether the annotated dependency is required.</span></span><br><span class="line"><span class="comment">    * &lt;p&gt;Defaults to &#123;<span class="doctag">@code</span> true&#125;.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">boolean</span> <span class="title">required</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">true</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>自动注入bean；</p>
+<p>@Autowired(required = false)表示即使被修饰的bean无法被注入，也不会报错；否则spring容器不会运行起来</p>
+<h1 id="Qualifier"><a href="#Qualifier" class="headerlink" title="@Qualifier"></a>@Qualifier</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(&#123;ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE, ElementType.ANNOTATION_TYPE&#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Inherited</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Qualifier &#123;</span><br><span class="line"></span><br><span class="line">   <span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过 @Qualifier 注释指定注入 Bean 的名称，防止容器中有多个名字相同的bean导致@Autowired注入引起歧义。</p>
+<ol>
+<li>value，对应被注入的bean的名字</li>
+</ol>
+<h1 id="AliasFor"><a href="#AliasFor" class="headerlink" title="@AliasFor"></a>@AliasFor</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> AliasFor &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Alias for &#123;<span class="doctag">@link</span> #attribute&#125;.</span></span><br><span class="line"><span class="comment">	 * &lt;p&gt;Intended to be used instead of &#123;<span class="doctag">@link</span> #attribute&#125; when &#123;<span class="doctag">@link</span> #annotation&#125;</span></span><br><span class="line"><span class="comment">	 * is not declared &amp;mdash; for example: &#123;<span class="doctag">@code</span> <span class="doctag">@AliasFor</span>("value")&#125; instead of</span></span><br><span class="line"><span class="comment">	 * &#123;<span class="doctag">@code</span> <span class="doctag">@AliasFor</span>(attribute = "value")&#125;.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@AliasFor</span>(<span class="string">"attribute"</span>)</span><br><span class="line">	<span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * The name of the attribute that &lt;em&gt;this&lt;/em&gt; attribute is an alias for.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@see</span> #value</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@AliasFor</span>(<span class="string">"value"</span>)</span><br><span class="line">	<span class="function">String <span class="title">attribute</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * The type of annotation in which the aliased &#123;<span class="doctag">@link</span> #attribute&#125; is declared.</span></span><br><span class="line"><span class="comment">	 * &lt;p&gt;Defaults to &#123;<span class="doctag">@link</span> Annotation&#125;, implying that the aliased attribute is</span></span><br><span class="line"><span class="comment">	 * declared in the same annotation as &lt;em&gt;this&lt;/em&gt; attribute.</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	Class&lt;? extends Annotation&gt; annotation() <span class="keyword">default</span> Annotation<span class="class">.<span class="keyword">class</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用来声明属性的别名</p>
+<h1 id="Schedule"><a href="#Schedule" class="headerlink" title="@Schedule"></a>@Schedule</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(&#123;ElementType.METHOD, ElementType.ANNOTATION_TYPE&#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Repeatable</span>(Schedules<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> @<span class="title">interface</span> <span class="title">Scheduled</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * A cron-like expression, extending the usual UN*X definition to include triggers</span></span><br><span class="line"><span class="comment">    * on the second as well as minute, hour, day of month, month and day of week.</span></span><br><span class="line"><span class="comment">    * &lt;p&gt;E.g. &#123;<span class="doctag">@code</span> "0 * * * * MON-FRI"&#125; means once per minute on weekdays</span></span><br><span class="line"><span class="comment">    * (at the top of the minute - the 0th second).</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> an expression that can be parsed to a cron schedule</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@see</span> org.springframework.scheduling.support.CronSequenceGenerator</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function">String <span class="title">cron</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * A time zone for which the cron expression will be resolved. By default, this</span></span><br><span class="line"><span class="comment">    * attribute is the empty String (i.e. the server's local time zone will be used).</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> a zone id accepted by &#123;<span class="doctag">@link</span> java.util.TimeZone#getTimeZone(String)&#125;,</span></span><br><span class="line"><span class="comment">    * or an empty String to indicate the server's default time zone</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@since</span> 4.0</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@see</span> org.springframework.scheduling.support.CronTrigger#CronTrigger(String, java.util.TimeZone)</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@see</span> java.util.TimeZone</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function">String <span class="title">zone</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Execute the annotated method with a fixed period in milliseconds between the</span></span><br><span class="line"><span class="comment">    * end of the last invocation and the start of the next.</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> the delay in milliseconds</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">long</span> <span class="title">fixedDelay</span><span class="params">()</span> <span class="keyword">default</span> -1</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Execute the annotated method with a fixed period in milliseconds between the</span></span><br><span class="line"><span class="comment">    * end of the last invocation and the start of the next.</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> the delay in milliseconds as a String value, e.g. a placeholder</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@since</span> 3.2.2</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function">String <span class="title">fixedDelayString</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Execute the annotated method with a fixed period in milliseconds between</span></span><br><span class="line"><span class="comment">    * invocations.</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> the period in milliseconds</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">long</span> <span class="title">fixedRate</span><span class="params">()</span> <span class="keyword">default</span> -1</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Execute the annotated method with a fixed period in milliseconds between</span></span><br><span class="line"><span class="comment">    * invocations.</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> the period in milliseconds as a String value, e.g. a placeholder</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@since</span> 3.2.2</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function">String <span class="title">fixedRateString</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Number of milliseconds to delay before the first execution of a</span></span><br><span class="line"><span class="comment">    * &#123;<span class="doctag">@link</span> #fixedRate()&#125; or &#123;<span class="doctag">@link</span> #fixedDelay()&#125; task.</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> the initial delay in milliseconds</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@since</span> 3.2</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">long</span> <span class="title">initialDelay</span><span class="params">()</span> <span class="keyword">default</span> -1</span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Number of milliseconds to delay before the first execution of a</span></span><br><span class="line"><span class="comment">    * &#123;<span class="doctag">@link</span> #fixedRate()&#125; or &#123;<span class="doctag">@link</span> #fixedDelay()&#125; task.</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> the initial delay in milliseconds as a String value, e.g. a placeholder</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@since</span> 3.2.2</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function">String <span class="title">initialDelayString</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>被@Schedule修饰的方法会按照相应的参数定时执行</p>
+<ol>
+<li>cron表达式</li>
+<li>zone，cron表达式对应的时区，默认是本地服务器的时区</li>
+<li>fixedDelay，在最后一次调用结束和下一次调用开始之间以固定周期（以毫秒为单位）执行带注释的方法，ps：类似于串行执行，只不过中间有一个固定的delay。</li>
+<li>fixedDelayString</li>
+<li>fixedRate，不同于fixedDelay，方法之间的调用总是会以固定的周期调用，不管上一个方法结束与否</li>
+<li>fixedRateString</li>
+<li>initialDelay，第一次调用方法之前delay的时间</li>
+<li>initialDelayString</li>
+</ol>
+<h2 id="Spring如何实现-Schedule"><a href="#Spring如何实现-Schedule" class="headerlink" title="Spring如何实现@Schedule"></a>Spring如何实现@Schedule</h2><ol>
+<li>首先需要开启<code>@EnableScheduling</code>注解，开启该注解后Spring会在配置类<code>SchedulingConfiguration</code>中自动注入<code>ScheduledAnnotationBeanPostProcessor</code></li>
+<li><code>ScheduledAnnotationBeanPostProcessor</code>类中会将被<code>@Scheduled</code>修饰的方法注册到<code>ScheduledTaskRegistrar</code>中，同时注入默认的线程池<code>DEFAULT_TASK_SCHEDULER_BEAN_NAME</code>（这个线程池的配置可以自己通过实现接口<code>SchedulingConfigurer</code>来自定义），<strong>默认的线程池是单线程的</strong>。方法会根据注解中给定的参数在线程池中执行</li>
+</ol>
+<h1 id="Async"><a href="#Async" class="headerlink" title="@Async"></a>@Async</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(&#123;ElementType.METHOD, ElementType.TYPE&#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Async &#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * A qualifier value for the specified asynchronous operation(s).</span></span><br><span class="line"><span class="comment">    * &lt;p&gt;May be used to determine the target executor to be used when executing this</span></span><br><span class="line"><span class="comment">    * method, matching the qualifier value (or the bean name) of a specific</span></span><br><span class="line"><span class="comment">    * &#123;<span class="doctag">@link</span> java.util.concurrent.Executor Executor&#125; or</span></span><br><span class="line"><span class="comment">    * &#123;<span class="doctag">@link</span> org.springframework.core.task.TaskExecutor TaskExecutor&#125;</span></span><br><span class="line"><span class="comment">    * bean definition.</span></span><br><span class="line"><span class="comment">    * &lt;p&gt;When specified on a class level &#123;<span class="doctag">@code</span> <span class="doctag">@Async</span>&#125; annotation, indicates that the</span></span><br><span class="line"><span class="comment">    * given executor should be used for all methods within the class. Method level use</span></span><br><span class="line"><span class="comment">    * of &#123;<span class="doctag">@code</span> Async#value&#125; always overrides any value set at the class level.</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@since</span> 3.1.2</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该注释作用于方法上，被修饰的方法会以异步的方式执行。</p>
+<ol>
+<li>value，对应执行该方法的线程池名字，默认springboot会去匹配Executor或TaskExecutor</li>
+</ol>
+<p>被修饰的方法可以存在方法参数，可以有返回值（<code>Future</code>AND<code>CompletableFuture</code>）</p>
+<p><strong>NOTE：该注解不能同时与@PostConstruct一起使用，但是可以再@PostConstruct中调用被@Async修饰的方法</strong></p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Async` can not be used in conjunction with lifecycle callbacks such as `@PostConstruct</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h1 id="PostConstruct"><a href="#PostConstruct" class="headerlink" title="@PostConstruct"></a>@PostConstruct</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention</span> (RUNTIME)</span><br><span class="line"><span class="meta">@Target</span>(METHOD)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> PostConstruct &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该注释只能作用于方法上，该方法会被执行在对应的类依赖注入完成之后。一般用于初始化操作，如读取相应的缓存等</p>
+<h1 id="Retryable"><a href="#Retryable" class="headerlink" title="@Retryable"></a>@Retryable</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(&#123; ElementType.METHOD, ElementType.TYPE &#125;)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Retryable &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Retry interceptor bean name to be applied for retryable method. Is mutually</span></span><br><span class="line"><span class="comment">	 * exclusive with other attributes.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> the retry interceptor bean name</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function">String <span class="title">interceptor</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Exception types that are retryable. Synonym for includes(). Defaults to empty (and</span></span><br><span class="line"><span class="comment">	 * if excludes is also empty all exceptions are retried).</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> exception types to retry</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	Class&lt;? extends Throwable&gt;[] value() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Exception types that are retryable. Defaults to empty (and if excludes is also</span></span><br><span class="line"><span class="comment">	 * empty all exceptions are retried).</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> exception types to retry</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	Class&lt;? extends Throwable&gt;[] include() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Exception types that are not retryable. Defaults to empty (and if includes is also</span></span><br><span class="line"><span class="comment">	 * empty all exceptions are retried).</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> exception types to retry</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	Class&lt;? extends Throwable&gt;[] exclude() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * A unique label for statistics reporting. If not provided the caller may choose to</span></span><br><span class="line"><span class="comment">	 * ignore it, or provide a default.</span></span><br><span class="line"><span class="comment">	 *</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> the label for the statistics</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function">String <span class="title">label</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Flag to say that the retry is stateful: i.e. exceptions are re-thrown, but the</span></span><br><span class="line"><span class="comment">	 * retry policy is applied with the same policy to subsequent invocations with the</span></span><br><span class="line"><span class="comment">	 * same arguments. If false then retryable exceptions are not re-thrown.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> true if retry is stateful, default false</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">stateful</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">false</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> the maximum number of attempts (including the first failure), defaults to 3</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">maxAttempts</span><span class="params">()</span> <span class="keyword">default</span> 3</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> an expression evaluated to the maximum number of attempts (including the first failure), defaults to 3</span></span><br><span class="line"><span class="comment">	 * Overrides &#123;<span class="doctag">@link</span> #maxAttempts()&#125;.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@since</span> 1.2</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function">String <span class="title">maxAttemptsExpression</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Specify the backoff properties for retrying this operation. The default is a</span></span><br><span class="line"><span class="comment">	 * simple &#123;<span class="doctag">@link</span> Backoff&#125; specification with no properties - see it's documentation</span></span><br><span class="line"><span class="comment">	 * for defaults.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> a backoff specification</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function">Backoff <span class="title">backoff</span><span class="params">()</span> <span class="keyword">default</span> @<span class="title">Backoff</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Specify an expression to be evaluated after the &#123;<span class="doctag">@code</span> SimpleRetryPolicy.canRetry()&#125;</span></span><br><span class="line"><span class="comment">	 * returns true - can be used to conditionally suppress the retry. Only invoked after</span></span><br><span class="line"><span class="comment">	 * an exception is thrown. The root object for the evaluation is the last &#123;<span class="doctag">@code</span> Throwable&#125;.</span></span><br><span class="line"><span class="comment">	 * Other beans in the context can be referenced.</span></span><br><span class="line"><span class="comment">	 * For example:</span></span><br><span class="line"><span class="comment">	 * &lt;pre class=code&gt;</span></span><br><span class="line"><span class="comment">	 *  &#123;<span class="doctag">@code</span> "message.contains('you can retry this')"&#125;.</span></span><br><span class="line"><span class="comment">	 * &lt;/pre&gt;</span></span><br><span class="line"><span class="comment">	 * and</span></span><br><span class="line"><span class="comment">	 * &lt;pre class=code&gt;</span></span><br><span class="line"><span class="comment">	 *  &#123;<span class="doctag">@code</span> "<span class="doctag">@someBean</span>.shouldRetry(#root)"&#125;.</span></span><br><span class="line"><span class="comment">	 * &lt;/pre&gt;</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> the expression.</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@since</span> 1.2</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function">String <span class="title">exceptionExpression</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<blockquote>
+<p><em>大部分正义感都是虚伪的 聊胜于无   —————————————————————————沃德彭尤·胡某</em></p>
+</blockquote>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Autowired"><span class="toc-number">1.</span> <span class="toc-text">@Autowired</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Qualifier"><span class="toc-number">2.</span> <span class="toc-text">@Qualifier</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AliasFor"><span class="toc-number">3.</span> <span class="toc-text">@AliasFor</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Schedule"><span class="toc-number">4.</span> <span class="toc-text">@Schedule</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring如何实现-Schedule"><span class="toc-number">4.1.</span> <span class="toc-text">Spring如何实现@Schedule</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Async"><span class="toc-number">5.</span> <span class="toc-text">@Async</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PostConstruct"><span class="toc-number">6.</span> <span class="toc-text">@PostConstruct</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Retryable"><span class="toc-number">7.</span> <span class="toc-text">@Retryable</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&text=Spring相关注解笔记" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&title=Spring相关注解笔记" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&is_video=false&description=Spring相关注解笔记" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Spring相关注解笔记&body=Check out this article: https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&title=Spring相关注解笔记" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&title=Spring相关注解笔记" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&title=Spring相关注解笔记" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&title=Spring相关注解笔记" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/&name=Spring相关注解笔记&description=&lt;p&gt;整理spring注解~&lt;/p&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 qianhangkang
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'qianhangkang';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

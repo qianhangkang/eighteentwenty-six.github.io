@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="上次面试本以为熟悉了这块内容，但实际上自己还是对这块知识的概念挺模糊的。">
+<meta name="keywords" content="JVM,对象创建,内存模型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈JVM内存区域与对象创建过程">
+<meta property="og:url" content="https:&#x2F;&#x2F;cnhkblog.top&#x2F;2018&#x2F;04&#x2F;13&#x2F;%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B&#x2F;index.html">
+<meta property="og:site_name" content="萍水相逢 互道安好">
+<meta property="og:description" content="上次面试本以为熟悉了这块内容，但实际上自己还是对这块知识的概念挺模糊的。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2018&#x2F;04&#x2F;13&#x2F;5ad051fd3f6c5.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2018&#x2F;04&#x2F;15&#x2F;5ad35745e57bc.jpg">
+<meta property="og:updated_time" content="2019-11-02T06:26:56.792Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2018&#x2F;04&#x2F;13&#x2F;5ad051fd3f6c5.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>浅谈JVM内存区域与对象创建过程</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/04/17/%E6%B5%85%E8%B0%88GC/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/04/12/Java%E9%9B%86%E5%90%88%E7%B1%BB%E6%95%B4%E7%90%86/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&text=浅谈JVM内存区域与对象创建过程" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&title=浅谈JVM内存区域与对象创建过程" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&is_video=false&description=浅谈JVM内存区域与对象创建过程" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=浅谈JVM内存区域与对象创建过程&body=Check out this article: https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&title=浅谈JVM内存区域与对象创建过程" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&title=浅谈JVM内存区域与对象创建过程" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&title=浅谈JVM内存区域与对象创建过程" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&title=浅谈JVM内存区域与对象创建过程" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&name=浅谈JVM内存区域与对象创建过程&description=&lt;blockquote&gt;
+&lt;p&gt;上次面试本以为熟悉了这块内容，但实际上自己还是对这块知识的概念挺模糊的。&lt;/p&gt;
+&lt;/blockquote&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM内存模型"><span class="toc-number">1.</span> <span class="toc-text">JVM内存模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">1.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#程序计数器"><span class="toc-number">1.2.</span> <span class="toc-text">程序计数器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟机栈"><span class="toc-number">1.3.</span> <span class="toc-text">虚拟机栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地方法栈"><span class="toc-number">1.4.</span> <span class="toc-text">本地方法栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java堆"><span class="toc-number">1.5.</span> <span class="toc-text">Java堆</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新生代"><span class="toc-number">1.5.1.</span> <span class="toc-text">新生代</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Eden区"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">Eden区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#From-Survivor与To-Survivor"><span class="toc-number">1.5.1.2.</span> <span class="toc-text">From Survivor与To Survivor</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#老年代"><span class="toc-number">1.5.2.</span> <span class="toc-text">老年代</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法区"><span class="toc-number">1.6.</span> <span class="toc-text">方法区</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#运行时常量池"><span class="toc-number">1.6.1.</span> <span class="toc-text">运行时常量池</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对象创建过程"><span class="toc-number">2.</span> <span class="toc-text">对象创建过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#对象在Eden区中分配"><span class="toc-number">2.1.</span> <span class="toc-text">对象在Eden区中分配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#大对象直接进入老年代"><span class="toc-number">2.2.</span> <span class="toc-text">大对象直接进入老年代</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM常用控制参数"><span class="toc-number">3.</span> <span class="toc-text">JVM常用控制参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">4.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        浅谈JVM内存区域与对象创建过程
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">萍水相逢 互道安好</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-04-13T05:49:19.000Z" itemprop="datePublished">2018-04-13</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/JVM/" rel="tag">JVM</a>, <a class="tag-link" href="/tags/%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" rel="tag">内存模型</a>, <a class="tag-link" href="/tags/%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA/" rel="tag">对象创建</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>上次面试本以为熟悉了这块内容，但实际上自己还是对这块知识的概念挺模糊的。</p>
+</blockquote>
+<a id="more"></a>
+
+<h1 id="JVM内存模型"><a href="#JVM内存模型" class="headerlink" title="JVM内存模型"></a>JVM内存模型</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据。这些区域都有各自的用途，以及创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则是依赖用户线程的启动和结束而建立和销毁。Java虚拟机所管理的内存如下图所示。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/04/13/5ad051fd3f6c5.jpg" alt="JVM内存模型_看图王.jpg"></p>
+<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><blockquote>
+<p>是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。</p>
+<p>由于Java虚拟机的多线程是通过线程轮流切换并分配处理器的执行时间的方式来实现的，在任何一个确定的时间，一个处理器（对于多核处理器来说是一个内核）都只会执行一个线程中的指令。因此，<strong>为了线程切换后能恢复到正确的执行位置</strong>，每条线程都需要有一个独立的程序计数器，各条线程之间计数器互不影响，独立存储，因此这块内存区域是<strong>“线程私有”</strong>的。</p>
+</blockquote>
+<h2 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h2><blockquote>
+<p>与程序计数器一样，虚拟机栈也是<strong>“线程私有”</strong>的，它的生命周期与线程相同。一般存放了编译期可知的各种基本数据类型、对象引用和returnAddress类型（指向了一条字节码指令的地址）</p>
+</blockquote>
+<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><blockquote>
+<p>本地方法栈与虚拟机栈所发挥的作用是非常相似的，它们之间的区别不过是虚拟机栈执行Java方法（也就是字节码）服务，而本地方法栈则为虚拟机使用Native方法服务。</p>
+</blockquote>
+<h2 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h2><blockquote>
+<p>对于大多数应用来说，Java堆 是Java虚拟机所管理的内存中最大的一块。Java堆是被所有<strong>线程共享</strong>的一块内存区域，在虚拟机启动时创建。主要存放了对象的实例和数组。Java堆也是垃圾回收的主要区域。</p>
+</blockquote>
+<h3 id="新生代"><a href="#新生代" class="headerlink" title="新生代"></a>新生代</h3><h4 id="Eden区"><a href="#Eden区" class="headerlink" title="Eden区"></a>Eden区</h4><blockquote>
+<p>对象一般优先再Eden区上分配。如果空间不够会触发一次young GC，如果还不够，那么则触发一次full GC。</p>
+</blockquote>
+<h4 id="From-Survivor与To-Survivor"><a href="#From-Survivor与To-Survivor" class="headerlink" title="From Survivor与To Survivor"></a>From Survivor与To Survivor</h4><blockquote>
+<p>新生代中，每次使用的是Eden区和一个survivor区，这个区就是from survivor。当发生young GC时，会将Eden区和from survivor区中还存活着的对象复制到to survivor区中，然后清理掉Eden区和from survivor区。from survivor区和to survivor都是相对来说的<del>~</del> 一般情况下，HotSpot虚拟机默认的Eden区和一个survivor区的大小比例为8:1。</p>
+</blockquote>
+<h3 id="老年代"><a href="#老年代" class="headerlink" title="老年代"></a>老年代</h3><blockquote>
+<p>老年代一般存放的都是经过<strong>分配担保</strong>的大对象和经过数次GC并且经过<strong>动态年龄判定</strong>的对象。</p>
+</blockquote>
+<ul>
+<li>分配担保：写了一半感觉自己解释不清楚，放个<a href="https://www.jianshu.com/p/62c37dc7d638" target="_blank" rel="noopener">链接</a>吧。。。</li>
+<li>动态年龄判定：如果再survivor区中相同年龄所有对象大小的总和大于survivor空间的一半，那么年龄大于等于该年龄的对象就可以直接进入老年代，无需等到MaxTenuringThreshold（默认为15岁，即经过15次GC后才会进入老年代）中要求的年龄。</li>
+</ul>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><blockquote>
+<p>方法区与堆一样，是各个<strong>线程共享</strong>的内存区域，它用于存储<strong>已被虚拟机加载的类信息、常量、静态变量、即时编译期编译后的代码等数据</strong>。</p>
+</blockquote>
+<h3 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h3><blockquote>
+<p>运行时常量池是方法区的一部分。主要用于存储编译期生成的各种字面量和符号引用。</p>
+</blockquote>
+<h1 id="对象创建过程"><a href="#对象创建过程" class="headerlink" title="对象创建过程"></a>对象创建过程</h1><p><img src="https://i.loli.net/2018/04/15/5ad35745e57bc.jpg" alt="JVM内存分配策略"></p>
+<blockquote>
+<p>对象的内存分配，往大方向讲，就是在堆上分配（但也可能经过JIT编译后被拆散为标量类型并简介地栈上分配），对象主要分配在新生代的Eden区上，如果启动了本地线程分配缓冲，将按线程优先在TLAB上分配。少数情况下也可能会直接分配在老年代，分配的规则并不是百分百固定的，其细节取决于当前使用的是哪一种垃圾收集器组合，还有虚拟机中与内存相关的参数的设置。</p>
+</blockquote>
+<h2 id="对象在Eden区中分配"><a href="#对象在Eden区中分配" class="headerlink" title="对象在Eden区中分配"></a>对象在Eden区中分配</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//VM 参数:-verbose:gc -Xms20m -Xmx20m -Xmn10m  -XX:+PrintGCDetails -XX:+SurvivorRatio=8</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> _1MB = <span class="number">1024</span>*<span class="number">1024</span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] allocation1,allocation2,allocation3,allocation4;</span><br><span class="line">        allocation1 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1MB];</span><br><span class="line">        allocation2 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1MB];</span><br><span class="line">        allocation3 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">2</span> * _1MB];</span><br><span class="line">        allocation4 = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4</span> * _1MB];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上述代码所述，allocation1，allocation2，allocation3都会分配在Eden区中，而在为allocation4分配内存时会发生一次young GC，又因为allocation1，allocation2，allocation3都不需要被回收，to survivor区又放不下，所以他们会被移至老年代，然后allocation4被分配在Eden区。</p>
+<h2 id="大对象直接进入老年代"><a href="#大对象直接进入老年代" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**  </span></span><br><span class="line"><span class="comment">* VM参数：-verbose:gc -Xms20M -Xmx20M -Xmn10M -XX:SurvivorRatio=8 </span></span><br><span class="line"><span class="comment">* -XX:PretenureSizeThreshold=3145728 </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> _1MB = <span class="number">1024</span>*<span class="number">1024</span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] allocation;  </span><br><span class="line">　  	   allocation = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4</span> * _1MB]; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上述代码所示，allocation会直接分配到老年代中。</p>
+<h1 id="JVM常用控制参数"><a href="#JVM常用控制参数" class="headerlink" title="JVM常用控制参数"></a>JVM常用控制参数</h1><ul>
+<li>-Xms设置堆的最小空间大小。</li>
+<li>-Xmx设置堆的最大空间大小。</li>
+<li>-XX:NewSize设置新生代最小空间大小。</li>
+<li>-XX:MaxNewSize设置新生代最大空间大小。</li>
+<li>-XX:PermSize设置永久代最小空间大小。</li>
+<li>-XX:MaxPermSize设置永久代最大空间大小。</li>
+<li>-Xss设置每个线程的堆栈大小。</li>
+</ul>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="http://www.ityouknow.com/jvm/2017/08/25/jvm-memory-structure.html" target="_blank" rel="noopener">http://www.ityouknow.com/jvm/2017/08/25/jvm-memory-structure.html</a></p>
+<p><a href="https://juejin.im/post/5a14de6751882555cc417df7" target="_blank" rel="noopener">https://juejin.im/post/5a14de6751882555cc417df7</a></p>
+<blockquote>
+<p>大部分正义感都是虚伪的 聊胜于无   —————————————————————————沃德彭尤·胡某</p>
+</blockquote>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM内存模型"><span class="toc-number">1.</span> <span class="toc-text">JVM内存模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">1.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#程序计数器"><span class="toc-number">1.2.</span> <span class="toc-text">程序计数器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#虚拟机栈"><span class="toc-number">1.3.</span> <span class="toc-text">虚拟机栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本地方法栈"><span class="toc-number">1.4.</span> <span class="toc-text">本地方法栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java堆"><span class="toc-number">1.5.</span> <span class="toc-text">Java堆</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新生代"><span class="toc-number">1.5.1.</span> <span class="toc-text">新生代</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Eden区"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">Eden区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#From-Survivor与To-Survivor"><span class="toc-number">1.5.1.2.</span> <span class="toc-text">From Survivor与To Survivor</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#老年代"><span class="toc-number">1.5.2.</span> <span class="toc-text">老年代</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法区"><span class="toc-number">1.6.</span> <span class="toc-text">方法区</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#运行时常量池"><span class="toc-number">1.6.1.</span> <span class="toc-text">运行时常量池</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对象创建过程"><span class="toc-number">2.</span> <span class="toc-text">对象创建过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#对象在Eden区中分配"><span class="toc-number">2.1.</span> <span class="toc-text">对象在Eden区中分配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#大对象直接进入老年代"><span class="toc-number">2.2.</span> <span class="toc-text">大对象直接进入老年代</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM常用控制参数"><span class="toc-number">3.</span> <span class="toc-text">JVM常用控制参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">4.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&text=浅谈JVM内存区域与对象创建过程" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&title=浅谈JVM内存区域与对象创建过程" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&is_video=false&description=浅谈JVM内存区域与对象创建过程" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=浅谈JVM内存区域与对象创建过程&body=Check out this article: https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&title=浅谈JVM内存区域与对象创建过程" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&title=浅谈JVM内存区域与对象创建过程" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&title=浅谈JVM内存区域与对象创建过程" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&title=浅谈JVM内存区域与对象创建过程" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/&name=浅谈JVM内存区域与对象创建过程&description=&lt;blockquote&gt;
+&lt;p&gt;上次面试本以为熟悉了这块内容，但实际上自己还是对这块知识的概念挺模糊的。&lt;/p&gt;
+&lt;/blockquote&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 qianhangkang
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'qianhangkang';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="垃圾回收（英语：Garbage Collection），在计算机科学中，缩写为GC是一种自动的存储器管理机制。当一个电脑上的动态存储器不再需要时，就应该予以释放，以让出存储器，这种存储器资源管理，称为垃圾回收。垃圾回收器可以让程序员减轻许多负担，也减少程序员犯错的机会。垃圾回收最早起源于LISP语言。目前许多语言如Smalltalk、Java、C#和D语言都支持垃圾回收器。">
+<meta name="keywords" content="JVM,GC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈GC">
+<meta property="og:url" content="https:&#x2F;&#x2F;cnhkblog.top&#x2F;2018&#x2F;04&#x2F;17&#x2F;%E6%B5%85%E8%B0%88GC&#x2F;index.html">
+<meta property="og:site_name" content="萍水相逢 互道安好">
+<meta property="og:description" content="垃圾回收（英语：Garbage Collection），在计算机科学中，缩写为GC是一种自动的存储器管理机制。当一个电脑上的动态存储器不再需要时，就应该予以释放，以让出存储器，这种存储器资源管理，称为垃圾回收。垃圾回收器可以让程序员减轻许多负担，也减少程序员犯错的机会。垃圾回收最早起源于LISP语言。目前许多语言如Smalltalk、Java、C#和D语言都支持垃圾回收器。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2018&#x2F;04&#x2F;17&#x2F;5ad60827157b3.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pic3.zhimg.com&#x2F;80&#x2F;cb06b4bd6d62cf310b7f3014ab5cb2fc_hd.jpg">
+<meta property="og:image" content="http:&#x2F;&#x2F;www.ityouknow.com&#x2F;assets&#x2F;images&#x2F;2017&#x2F;jvm&#x2F;gc_garbage2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;www.ityouknow.com&#x2F;assets&#x2F;images&#x2F;2017&#x2F;jvm&#x2F;gc_garbage1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;www.ityouknow.com&#x2F;assets&#x2F;images&#x2F;2017&#x2F;jvm&#x2F;gc_garbage3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;www.ityouknow.com&#x2F;assets&#x2F;images&#x2F;2017&#x2F;jvm&#x2F;gc_garbage4.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;www.ityouknow.com&#x2F;assets&#x2F;images&#x2F;2017&#x2F;jvm&#x2F;gc_garbage5.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;dl.iteye.com&#x2F;upload&#x2F;attachment&#x2F;612577&#x2F;2b525609-ce63-3a42-bf19-b2fbcd42f26c.png">
+<meta property="og:updated_time" content="2019-11-02T06:27:00.021Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2018&#x2F;04&#x2F;17&#x2F;5ad60827157b3.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>浅谈GC</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/04/17/Java%E6%B3%A8%E8%A7%A3/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&text=浅谈GC" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&title=浅谈GC" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&is_video=false&description=浅谈GC" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=浅谈GC&body=Check out this article: https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&title=浅谈GC" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&title=浅谈GC" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&title=浅谈GC" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&title=浅谈GC" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&name=浅谈GC&description=&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;垃圾回收&lt;/strong&gt;（英语：Garbage Collection），在计算机科学中，缩写为GC是一种自动的&lt;a href=&#34;https://zh.wikipedia.org/wiki/%E8%A8%98%E6%86%B6%E9%AB%94%E7%AE%A1%E7%90%86&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;存储器管理&lt;/a&gt;机制。当一个电脑上的动态存储器不再需要时，就应该予以释放，以让出存储器，这种存储器资源管理，称为&lt;strong&gt;垃圾回收&lt;/strong&gt;。垃圾回收器可以让程序员减轻许多负担，也减少程序员犯错的机会。垃圾回收最早起源于&lt;a href=&#34;https://zh.wikipedia.org/wiki/LISP&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;LISP&lt;/a&gt;语言。目前许多语言如&lt;a href=&#34;https://zh.wikipedia.org/wiki/Smalltalk&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Smalltalk&lt;/a&gt;、&lt;a href=&#34;https://zh.wikipedia.org/wiki/Java&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Java&lt;/a&gt;、&lt;a href=&#34;https://zh.wikipedia.org/wiki/C_Sharp&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;C#&lt;/a&gt;和&lt;a href=&#34;https://zh.wikipedia.org/wiki/D%E8%AF%AD%E8%A8%80&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;D语言&lt;/a&gt;都支持垃圾回收器。&lt;/p&gt;
+&lt;/blockquote&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#什么对象需要垃圾回收？"><span class="toc-number">1.</span> <span class="toc-text">什么对象需要垃圾回收？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#引用计数法"><span class="toc-number">1.1.</span> <span class="toc-text">引用计数法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可达性分析"><span class="toc-number">1.2.</span> <span class="toc-text">可达性分析</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM如何进行垃圾回收？"><span class="toc-number">2.</span> <span class="toc-text">JVM如何进行垃圾回收？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#四种垃圾回收算法"><span class="toc-number">2.1.</span> <span class="toc-text">四种垃圾回收算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#复制算法"><span class="toc-number">2.1.1.</span> <span class="toc-text">复制算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标记清理"><span class="toc-number">2.1.2.</span> <span class="toc-text">标记清理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标记整理"><span class="toc-number">2.1.3.</span> <span class="toc-text">标记整理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分代收集"><span class="toc-number">2.1.4.</span> <span class="toc-text">分代收集</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾收集器"><span class="toc-number">2.2.</span> <span class="toc-text">垃圾收集器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Serial收集器"><span class="toc-number">2.2.1.</span> <span class="toc-text">Serial收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ParNew收集器"><span class="toc-number">2.2.2.</span> <span class="toc-text">ParNew收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parallel收集器"><span class="toc-number">2.2.3.</span> <span class="toc-text">Parallel收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parallel-Old收集器"><span class="toc-number">2.2.4.</span> <span class="toc-text">Parallel Old收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CMS收集器"><span class="toc-number">2.2.5.</span> <span class="toc-text">CMS收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#G1收集器"><span class="toc-number">2.2.6.</span> <span class="toc-text">G1收集器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM在什么时候垃圾回收？"><span class="toc-number">3.</span> <span class="toc-text">JVM在什么时候垃圾回收？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#System-gc"><span class="toc-number">3.1.</span> <span class="toc-text">System.gc()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统自动GC"><span class="toc-number">3.2.</span> <span class="toc-text">系统自动GC</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">4.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        浅谈GC
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">萍水相逢 互道安好</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-04-17T09:05:46.000Z" itemprop="datePublished">2018-04-17</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/GC/" rel="tag">GC</a>, <a class="tag-link" href="/tags/JVM/" rel="tag">JVM</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p><strong>垃圾回收</strong>（英语：Garbage Collection），在计算机科学中，缩写为GC是一种自动的<a href="https://zh.wikipedia.org/wiki/%E8%A8%98%E6%86%B6%E9%AB%94%E7%AE%A1%E7%90%86" target="_blank" rel="noopener">存储器管理</a>机制。当一个电脑上的动态存储器不再需要时，就应该予以释放，以让出存储器，这种存储器资源管理，称为<strong>垃圾回收</strong>。垃圾回收器可以让程序员减轻许多负担，也减少程序员犯错的机会。垃圾回收最早起源于<a href="https://zh.wikipedia.org/wiki/LISP" target="_blank" rel="noopener">LISP</a>语言。目前许多语言如<a href="https://zh.wikipedia.org/wiki/Smalltalk" target="_blank" rel="noopener">Smalltalk</a>、<a href="https://zh.wikipedia.org/wiki/Java" target="_blank" rel="noopener">Java</a>、<a href="https://zh.wikipedia.org/wiki/C_Sharp" target="_blank" rel="noopener">C#</a>和<a href="https://zh.wikipedia.org/wiki/D%E8%AF%AD%E8%A8%80" target="_blank" rel="noopener">D语言</a>都支持垃圾回收器。</p>
+</blockquote>
+<a id="more"></a>
+
+<h1 id="什么对象需要垃圾回收？"><a href="#什么对象需要垃圾回收？" class="headerlink" title="什么对象需要垃圾回收？"></a>什么对象需要垃圾回收？</h1><p>垃圾回收，如何判定哪些对象需要回收呢？</p>
+<h2 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h2><blockquote>
+<p>最早期的垃圾回收实现方法，通过对数据存储的物理空间附加多一个计数器空间，当有其他数据与其相关时则加一，反之相关解除时减一，定期检查各储存对象的计数器，为零的话则认为已经被抛弃而将其所占物理空间回收。是最简单的实现，但存在无法回收循环引用的存储对象的缺陷。</p>
+</blockquote>
+<p>如下图：</p>
+<p><img src="https://i.loli.net/2018/04/17/5ad60827157b3.png" alt="互相引用"></p>
+<p>（图片来自<a href="https://blog.csdn.net/justloveyou_" target="_blank" rel="noopener">书呆子Rico</a>）</p>
+<p>OK，既然不能用这种方式解决，那么就出现了可达性分析的算法。</p>
+<h2 id="可达性分析"><a href="#可达性分析" class="headerlink" title="可达性分析"></a>可达性分析</h2><blockquote>
+<p>近现代的垃圾回收实现方法，通过定期对若干根储存对象开始遍历，对整个程序所拥有的储存空间查找与之相关的存储对象和没相关的存储对象进行标记，然后将没相关的存储对象所占物理空间回收。</p>
+</blockquote>
+<p>什么意思呢，就是通过一系列的名为”GC  Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链（Reference Chain），当一个对象到GC Roots没有任何引用链相连，即从GC Roots到这个对象不可达，则证明此对象是不可用的。如图：</p>
+<p><img src="https://pic3.zhimg.com/80/cb06b4bd6d62cf310b7f3014ab5cb2fc_hd.jpg" alt="可达性分析"></p>
+<p>左边的对象都是存活的，右边的都是可以回收的。（左边从上往下第一个对象为GC ROOTS）</p>
+<p>那么，继续提出问题，什么对象可以作为GC ROOTS？</p>
+<ol>
+<li>虚拟机栈（栈帧中的本地变量表）中的引用的对象</li>
+<li>方法区中的类静态属性引用的对象</li>
+<li>方法区中的常量引用的对象</li>
+<li>本地方法栈中JNI（Native方法）的引用对象</li>
+</ol>
+<h1 id="JVM如何进行垃圾回收？"><a href="#JVM如何进行垃圾回收？" class="headerlink" title="JVM如何进行垃圾回收？"></a>JVM如何进行垃圾回收？</h1><p>OK，现在JVM知道了哪些对象需要回收了，那么怎么去回收呢？</p>
+<h2 id="四种垃圾回收算法"><a href="#四种垃圾回收算法" class="headerlink" title="四种垃圾回收算法"></a>四种垃圾回收算法</h2><h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><blockquote>
+<p><strong>“复制算法”将可用内存按容量划分为大小相等的两块，每次只使用其中的一块。当这一块的内存用完了，就将还存活着的对象复制到另外一块上面，然后再把已使用过的内存空间一次清理掉。</strong>这种算法适用于对象存活率低的场景，比如新生代。这样使得每次都是对整个半区进行内存回收，内存分配时也就不用考虑内存碎片等复杂情况，只要移动堆顶指针，按顺序分配内存即可，实现简单，运行高效。</p>
+</blockquote>
+<p>如图所示：</p>
+<p><img src="http://www.ityouknow.com/assets/images/2017/jvm/gc_garbage2.png" alt="复制算法"></p>
+<p>一般来说，JVM肯定不是只用一半内存，否则这对于内存的使用率来说实在过于低下。经研究发现，新生代中的对象每次回收都基本只有10%存活，需要复制的对象较少，所以，通常情况下，JVM会将新生代内存分为Eden区和两个survivor区（<a href="https://qianhangkang.github.io/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/#JVM内存模型" target="_blank" rel="noopener">浅谈JVM内存模型</a>），Eden区和两个survivor区的比例为8：1，也就是说新生代的可用内存为整个新生代的90%，新生代内存的利用率达到了90%，这远远超过了之前的50%。</p>
+<h3 id="标记清理"><a href="#标记清理" class="headerlink" title="标记清理"></a>标记清理</h3><blockquote>
+<p>“标记-清除”（Mark-Sweep）算法，如它的名字一样，算法分为“标记”和“清除”两个阶段：首先标记出所有需要回收的对象，在标记完成后统一回收掉所有被标记的对象。之所以说它是最基础的收集算法，是因为后续的收集算法都是基于这种思路并对其缺点进行改进而得到的。</p>
+</blockquote>
+<p>主要缺点：</p>
+<ol>
+<li>效率问题，标记和清除过程的效率都不高</li>
+<li>空间问题，标记清除之后会产生大量不连续的内存碎片，导致之后需要分配较大对象时无法找到足够的连续内存而不得不提前触发GC，而GC的开销是很大的。</li>
+</ol>
+<p>标记清楚如下图所示：</p>
+<p><img src="http://www.ityouknow.com/assets/images/2017/jvm/gc_garbage1.png" alt="标记清除算法"></p>
+<h3 id="标记整理"><a href="#标记整理" class="headerlink" title="标记整理"></a>标记整理</h3><blockquote>
+<p> “标记整理”算法与“标记清除”算法非常相似，它也是分为两个阶段：<strong>标记和整理</strong>。首先标记出所有需要回收的对象，然后回收期间，会让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存</p>
+</blockquote>
+<p>如下图所示</p>
+<p><img src="http://www.ityouknow.com/assets/images/2017/jvm/gc_garbage3.png" alt="标记整理算法"></p>
+<h3 id="分代收集"><a href="#分代收集" class="headerlink" title="分代收集"></a>分代收集</h3><blockquote>
+<p>GC分代的基本假设：绝大部分对象的生命周期都非常短暂，存活时间短。</p>
+<p>“分代收集”算法，把Java堆分为新生代和老年代，这样就可以根据各个年代的特点采用最适当的收集算法。在新生代中，每次垃圾收集时都发现有大批对象死去，只有少量存活，那就选用复制算法，只需要付出少量存活对象的复制成本就可以完成收集。而老年代中因为对象存活率高、没有额外空间对它进行分配担保，就必须使用“标记-清理”或“标记-整理”算法来进行回收。</p>
+</blockquote>
+<h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><h3 id="Serial收集器"><a href="#Serial收集器" class="headerlink" title="Serial收集器"></a>Serial收集器</h3><blockquote>
+<p>串行收集器是最古老，最稳定以及效率高的收集器，可能会产生较长的停顿，只使用一个线程去回收。新生代、老年代使用串行回收；新生代复制算法、老年代标记-压缩；垃圾收集的过程中会Stop The World（服务暂停）</p>
+</blockquote>
+<p><img src="http://www.ityouknow.com/assets/images/2017/jvm/gc_garbage4.png" alt="Serial收集器"></p>
+<h3 id="ParNew收集器"><a href="#ParNew收集器" class="headerlink" title="ParNew收集器"></a>ParNew收集器</h3><blockquote>
+<p>ParNew收集器其实就是Serial收集器的多线程版本。新生代并行，老年代串行；新生代复制算法、老年代标记-整理</p>
+</blockquote>
+<p><img src="http://www.ityouknow.com/assets/images/2017/jvm/gc_garbage5.png" alt="ParNew收集器"></p>
+<h3 id="Parallel收集器"><a href="#Parallel收集器" class="headerlink" title="Parallel收集器"></a>Parallel收集器</h3><blockquote>
+<p>Parallel Scavenge收集器类似ParNew收集器，Parallel收集器更关注系统的吞吐量。可以通过参数来打开自适应调节策略，虚拟机会根据当前系统的运行情况收集性能监控信息，动态调整这些参数以提供最合适的停顿时间或最大的吞吐量；也可以通过参数控制GC的时间不大于多少毫秒或者比例；新生代复制算法、老年代标记-整理</p>
+</blockquote>
+<h3 id="Parallel-Old收集器"><a href="#Parallel-Old收集器" class="headerlink" title="Parallel Old收集器"></a>Parallel Old收集器</h3><blockquote>
+<p>Parallel Old是Parallel Scavenge收集器的老年代版本，使用多线程和“标记－整理”算法。这个收集器是在JDK 1.6中才开始提供</p>
+</blockquote>
+<h3 id="CMS收集器"><a href="#CMS收集器" class="headerlink" title="CMS收集器"></a>CMS收集器</h3><blockquote>
+<p>CMS（Concurrent Mark Sweep）收集器是一种以获取最短回收停顿时间为目标的收集器。目前很大一部分的Java应用都集中在互联网站或B/S系统的服务端上，这类应用尤其重视服务的响应速度，希望系统停顿时间最短，以给用户带来较好的体验。</p>
+<p>从名字（包含“Mark Sweep”）上就可以看出CMS收集器是基于“标记-清除”算法实现的，它的运作过程相对于前面几种收集器来说要更复杂一些，整个过程分为4个步骤，包括：</p>
+<ul>
+<li>初始标记（CMS initial mark）</li>
+<li>并发标记（CMS concurrent mark）</li>
+<li>重新标记（CMS remark）</li>
+<li>并发清除（CMS concurrent sweep）</li>
+</ul>
+<p>其中初始标记、重新标记这两个步骤仍然需要“Stop The World”。初始标记仅仅只是标记一下GC Roots能直接关联到的对象，速度很快，并发标记阶段就是进行GC Roots Tracing的过程，而重新标记阶段则是为了修正并发标记期间，因用户程序继续运作而导致标记产生变动的那一部分对象的标记记录，这个阶段的停顿时间一般会比初始标记阶段稍长一些，但远比并发标记的时间短。</p>
+<p>由于整个过程中耗时最长的并发标记和并发清除过程中，收集器线程都可以与用户线程一起工作，所以总体上来说，CMS收集器的内存回收过程是与用户线程一起并发地执行。</p>
+</blockquote>
+<p>优点：</p>
+<ol>
+<li>并发收集</li>
+<li>低停顿</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li><strong>对CPU资源非常敏感。</strong>面向并发设计的程序都对CPU资源比较敏感。在并发阶段，它虽然不会导致用户线程停顿，但会因为占用了一部分线程（或者说CPU资源）而导致应用程序变慢，总吞吐量会降低。CMS默认启动的回收线程数是（CPU数量+3）/4，也就是当CPU在4个以上时，并发回收时垃圾收集线程不少于25%的CPU资源，并且随着CPU数量的增加而下降。但是当CPU不足4个时（比如2个），CMS对用户程序的影响就可能变得很大，如果本来CPU负载就比较大，还要分出一半的运算能力去执行收集器线程，就可能导致用户程序的执行速度忽然降低了50%，其实也让人无法接受。</li>
+<li><strong>无法处理浮动垃圾（Floating Garbage）</strong>。可能出现“Concurrent Mode Failure”失败而导致另一次Full GC的产生。由于CMS并发清理阶段用户线程还在运行着，伴随程序运行自然就还会有新的垃圾不断产生。这一部分垃圾出现在标记过程之后，CMS无法再当次收集中处理掉它们，只好留待下一次GC时再清理掉。这一部分垃圾就被称为“浮动垃圾”。也是由于在垃圾收集阶段用户线程还需要运行，那也就还需要预留有足够的内存空间给用户线程使用，因此CMS收集器不能像其他收集器那样等到老年代几乎完全被填满了再进行收集，需要预留一部分空间提供并发收集时的程序运作使用。</li>
+<li><strong>标记-清除算法导致的空间碎片</strong> 。CMS是一款基于“标记-清除”算法实现的收集器，这意味着收集结束时会有大量空间碎片产生。空间碎片过多时，将会给大对象分配带来很大麻烦，往往出现老年代空间剩余，但无法找到足够大连续空间来分配当前对象。因此，为了解决空间浪费问题，CMS回收器不再采用简单的指针指向一块可用堆空间来为下次对象分配使用。而是把一些未分配的空间汇总成一个列表，当JVM分配对象空间的时候，会搜索这个列表找到足够大的空间来存放这个对象。</li>
+</ol>
+<p><img src="http://dl.iteye.com/upload/attachment/612577/2b525609-ce63-3a42-bf19-b2fbcd42f26c.png" alt="CMS收集器"></p>
+<h3 id="G1收集器"><a href="#G1收集器" class="headerlink" title="G1收集器"></a>G1收集器</h3><blockquote>
+<p>Garbage-First（G1）收集器是一种服务器式垃圾收集器，针对具有<strong>大型内存的多处理器机器</strong>。 它以高概率满足垃圾收集（GC）暂停时间目标，同时实现高吞吐量。垃圾收集器在Oracle JDK 7u4和更高版本中得到完全支持。</p>
+<p>G1垃圾收集算法主要应用在多CPU大内存的服务中，在满足高吞吐量的同时，竟可能的满足垃圾回收时的暂停时间，该设计主要针对如下应用场景：</p>
+<ul>
+<li>垃圾收集线程和应用线程并发执行，和CMS一样</li>
+<li>空闲内存压缩时避免冗长的暂停时间</li>
+<li>应用需要更多可预测的GC暂停时间</li>
+<li>不希望牺牲太多的吞吐性能</li>
+<li>不需要很大的Java堆 </li>
+</ul>
+</blockquote>
+<p>具体的回收方式参见<a href="http://www.importnew.com/27793.html" target="_blank" rel="noopener">这篇文章</a>，讲的非常详细，很nice。</p>
+<h1 id="JVM在什么时候垃圾回收？"><a href="#JVM在什么时候垃圾回收？" class="headerlink" title="JVM在什么时候垃圾回收？"></a>JVM在什么时候垃圾回收？</h1><h2 id="System-gc"><a href="#System-gc" class="headerlink" title="System.gc()"></a>System.gc()</h2><p>如下为System.gc()的源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Indicates to the VM that it would be a good time to run the</span></span><br><span class="line"><span class="comment"> * garbage collector. Note that this is a hint only. There is no guarantee</span></span><br><span class="line"><span class="comment"> * that the garbage collector will actually be run.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">gc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> shouldRunGC;</span><br><span class="line">    <span class="keyword">synchronized</span>(lock) &#123;</span><br><span class="line">        shouldRunGC = justRanFinalization;</span><br><span class="line">        <span class="keyword">if</span> (shouldRunGC) &#123;</span><br><span class="line">            justRanFinalization = <span class="keyword">false</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            runGC = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (shouldRunGC) &#123;</span><br><span class="line">        Runtime.getRuntime().gc();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由源码可见，当justRanFinalization为true时，系统会在调用System.gc()时发生GC。这里只是为了强调System.gc()并不一定会强制发生gc，类似finalize方法。</p>
+<h2 id="系统自动GC"><a href="#系统自动GC" class="headerlink" title="系统自动GC"></a>系统自动GC</h2><p>当运行时某些区域的内存不足时系统自动进行垃圾回收</p>
+<p>参考自自<a href="https://www.zhihu.com/question/41922036" target="_blank" rel="noopener">R神的解释</a>：</p>
+<blockquote>
+<ol>
+<li>young GC：当young gen中的eden区分配满的时候触发。注意young GC中有部分存活对象会晋升到old gen，所以young GC后old gen的占用量通常会有所升高。</li>
+<li>full GC：当准备要触发一次young GC时，如果发现统计数据说之前young GC的平均晋升大小比目前old gen剩余的空间大，则不会触发young GC而是转为触发full GC（因为HotSpot VM的GC里，除了CMS的concurrent collection之外，其它能收集old gen的GC都会同时收集整个GC堆，包括young gen，所以不需要事先触发一次单独的young GC）；或者，如果有perm gen的话，要在perm gen分配空间但已经没有足够空间时，也要触发一次full GC；或者System.gc()、heap dump带GC，默认也是触发full GC。</li>
+</ol>
+</blockquote>
+<p>总结一下就是系统自动回收主要看Eden区和old区的内存使用情况，不够了就触发相应的GC。</p>
+<p>这里对GC的种类做一个分类：</p>
+<blockquote>
+<p>Partial GC：并不收集整个GC堆的模式</p>
+<ul>
+<li>Young GC：只收集young gen的GC</li>
+<li>Old GC：只收集old gen的GC。只有CMS的concurrent collection是这个模式</li>
+<li>Mixed GC：收集整个young gen以及部分old gen的GC。只有G1有这个模式</li>
+</ul>
+<p>Full GC：收集整个堆，包括young gen、old gen、perm gen（如果存在的话）等所有部分的模式。</p>
+</blockquote>
+<p><strong>Major GC通常是跟full GC是等价的，收集整个GC堆。但因为HotSpot VM发展了这么多年，外界对各种名词的解读已经完全混乱了，当有人说“major GC”的时候一定要问清楚他想要指的是上面的full GC还是old GC。</strong></p>
+<p>因此更正下之前写的<a href="https://qianhangkang.github.io/2018/04/13/%E6%B5%85%E8%B0%88JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E4%B8%8E%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B/#新生代" target="_blank" rel="noopener">浅谈JVM内存模型与对象创建</a>的错误（已修正）…</p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://zh.wikipedia.org/wiki/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%B8)" target="_blank" rel="noopener">维基百科（垃圾回收）</a></p>
+<p><a href="https://blog.csdn.net/justloveyou_/article/details/71216049" target="_blank" rel="noopener">https://blog.csdn.net/justloveyou_/article/details/71216049</a></p>
+<p><a href="https://www.zhihu.com/question/35164211" target="_blank" rel="noopener">https://www.zhihu.com/question/35164211</a></p>
+<p><a href="http://softbeta.iteye.com/blog/1315103" target="_blank" rel="noopener">http://softbeta.iteye.com/blog/1315103</a></p>
+<p><a href="https://crowhawk.github.io/2017/08/15/jvm_3/" target="_blank" rel="noopener">https://crowhawk.github.io/2017/08/15/jvm_3/</a></p>
+<p><a href="http://www.importnew.com/27793.html" target="_blank" rel="noopener">http://www.importnew.com/27793.html</a></p>
+<p><a href="https://www.zhihu.com/question/41922036" target="_blank" rel="noopener">https://www.zhihu.com/question/41922036</a></p>
+<blockquote>
+<p>大部分正义感都是虚伪的 聊胜于无   —————————————————————————沃德彭尤·胡某</p>
+</blockquote>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#什么对象需要垃圾回收？"><span class="toc-number">1.</span> <span class="toc-text">什么对象需要垃圾回收？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#引用计数法"><span class="toc-number">1.1.</span> <span class="toc-text">引用计数法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可达性分析"><span class="toc-number">1.2.</span> <span class="toc-text">可达性分析</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM如何进行垃圾回收？"><span class="toc-number">2.</span> <span class="toc-text">JVM如何进行垃圾回收？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#四种垃圾回收算法"><span class="toc-number">2.1.</span> <span class="toc-text">四种垃圾回收算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#复制算法"><span class="toc-number">2.1.1.</span> <span class="toc-text">复制算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标记清理"><span class="toc-number">2.1.2.</span> <span class="toc-text">标记清理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标记整理"><span class="toc-number">2.1.3.</span> <span class="toc-text">标记整理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分代收集"><span class="toc-number">2.1.4.</span> <span class="toc-text">分代收集</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾收集器"><span class="toc-number">2.2.</span> <span class="toc-text">垃圾收集器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Serial收集器"><span class="toc-number">2.2.1.</span> <span class="toc-text">Serial收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ParNew收集器"><span class="toc-number">2.2.2.</span> <span class="toc-text">ParNew收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parallel收集器"><span class="toc-number">2.2.3.</span> <span class="toc-text">Parallel收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parallel-Old收集器"><span class="toc-number">2.2.4.</span> <span class="toc-text">Parallel Old收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CMS收集器"><span class="toc-number">2.2.5.</span> <span class="toc-text">CMS收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#G1收集器"><span class="toc-number">2.2.6.</span> <span class="toc-text">G1收集器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM在什么时候垃圾回收？"><span class="toc-number">3.</span> <span class="toc-text">JVM在什么时候垃圾回收？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#System-gc"><span class="toc-number">3.1.</span> <span class="toc-text">System.gc()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统自动GC"><span class="toc-number">3.2.</span> <span class="toc-text">系统自动GC</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">4.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&text=浅谈GC" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&title=浅谈GC" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&is_video=false&description=浅谈GC" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=浅谈GC&body=Check out this article: https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&title=浅谈GC" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&title=浅谈GC" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&title=浅谈GC" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&title=浅谈GC" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2018/04/17/%E6%B5%85%E8%B0%88GC/&name=浅谈GC&description=&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;垃圾回收&lt;/strong&gt;（英语：Garbage Collection），在计算机科学中，缩写为GC是一种自动的&lt;a href=&#34;https://zh.wikipedia.org/wiki/%E8%A8%98%E6%86%B6%E9%AB%94%E7%AE%A1%E7%90%86&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;存储器管理&lt;/a&gt;机制。当一个电脑上的动态存储器不再需要时，就应该予以释放，以让出存储器，这种存储器资源管理，称为&lt;strong&gt;垃圾回收&lt;/strong&gt;。垃圾回收器可以让程序员减轻许多负担，也减少程序员犯错的机会。垃圾回收最早起源于&lt;a href=&#34;https://zh.wikipedia.org/wiki/LISP&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;LISP&lt;/a&gt;语言。目前许多语言如&lt;a href=&#34;https://zh.wikipedia.org/wiki/Smalltalk&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Smalltalk&lt;/a&gt;、&lt;a href=&#34;https://zh.wikipedia.org/wiki/Java&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Java&lt;/a&gt;、&lt;a href=&#34;https://zh.wikipedia.org/wiki/C_Sharp&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;C#&lt;/a&gt;和&lt;a href=&#34;https://zh.wikipedia.org/wiki/D%E8%AF%AD%E8%A8%80&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;D语言&lt;/a&gt;都支持垃圾回收器。&lt;/p&gt;
+&lt;/blockquote&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 qianhangkang
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'qianhangkang';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

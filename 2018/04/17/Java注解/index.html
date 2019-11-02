@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Annotation其实是一种接口。通过Java的反射机制相关的API来访问Annotation信息。相关类（框架或工具中的类即使用注解的类）根据这些信息来决定如何使用该程序元素或改变它们的行为。">
+<meta name="keywords" content="Java,注解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java注解【未完】">
+<meta property="og:url" content="https:&#x2F;&#x2F;cnhkblog.top&#x2F;2018&#x2F;04&#x2F;17&#x2F;Java%E6%B3%A8%E8%A7%A3&#x2F;index.html">
+<meta property="og:site_name" content="萍水相逢 互道安好">
+<meta property="og:description" content="Annotation其实是一种接口。通过Java的反射机制相关的API来访问Annotation信息。相关类（框架或工具中的类即使用注解的类）根据这些信息来决定如何使用该程序元素或改变它们的行为。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-02T06:25:45.016Z">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Java注解【未完】</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/04/19/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/04/17/%E6%B5%85%E8%B0%88GC/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&text=Java注解【未完】" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&title=Java注解【未完】" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&is_video=false&description=Java注解【未完】" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java注解【未完】&body=Check out this article: https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&title=Java注解【未完】" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&title=Java注解【未完】" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&title=Java注解【未完】" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&title=Java注解【未完】" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&name=Java注解【未完】&description=&lt;blockquote&gt;
+&lt;p&gt;Annotation其实是一种接口。通过Java的反射机制相关的API来访问Annotation信息。相关类（框架或工具中的类即使用注解的类）根据这些信息来决定如何使用该程序元素或改变它们的行为。&lt;/p&gt;
+&lt;/blockquote&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#注解"><span class="toc-number">1.</span> <span class="toc-text">注解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#元注解"><span class="toc-number">1.1.</span> <span class="toc-text">元注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Documented"><span class="toc-number">1.1.1.</span> <span class="toc-text">@Documented</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Retention"><span class="toc-number">1.1.2.</span> <span class="toc-text">@Retention</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Target"><span class="toc-number">1.1.3.</span> <span class="toc-text">@Target</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ElementType-value"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">ElementType[] value();</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Inherited"><span class="toc-number">1.1.4.</span> <span class="toc-text">@Inherited</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标准注解"><span class="toc-number">1.2.</span> <span class="toc-text">标准注解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">2.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Java注解【未完】
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">萍水相逢 互道安好</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-04-17T14:58:08.000Z" itemprop="datePublished">2018-04-17</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Java/" rel="tag">Java</a>, <a class="tag-link" href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag">注解</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>Annotation其实是一种接口。通过Java的反射机制相关的API来访问Annotation信息。相关类（框架或工具中的类即使用注解的类）根据这些信息来决定如何使用该程序元素或改变它们的行为。</p>
+</blockquote>
+<a id="more"></a>
+
+<h1 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h1><h2 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h2><h3 id="Documented"><a href="#Documented" class="headerlink" title="@Documented"></a>@Documented</h3><blockquote>
+<p>被该注解修饰的类会生成到Javadoc中</p>
+</blockquote>
+<h3 id="Retention"><a href="#Retention" class="headerlink" title="@Retention"></a>@Retention</h3><blockquote>
+<p>@Retention定义了该Annotation被保留的时间长短。</p>
+<ul>
+<li>RetentionPolicy.SOURCE<br>源码级别，注解只存在源码中。主要是与编译器交互，用于代码检测。如@Override，@SuppressWarnings。额外效率损耗发生在编译时。</li>
+<li>RetentionPolicy.CLASS<br>字节码级别，注解存在于源码与字节码文件中。主要用于编译时生成额外的文件，如XML，Java文件等，但运行时无法获得。这个级别需要添加JVM加载时候的代理，使用代理来动态修改字节码文件。</li>
+<li>RetentionPolicy.RUNTIME<br>运行时级别，注解存在于源码，字节码与Java虚拟机中。主要用于运行时反射相关信息</li>
+</ul>
+</blockquote>
+<h3 id="Target"><a href="#Target" class="headerlink" title="@Target"></a>@Target</h3><blockquote>
+<p>说明了该Annotation所修饰的对象范围</p>
+</blockquote>
+<h4 id="ElementType-value"><a href="#ElementType-value" class="headerlink" title="ElementType[] value();"></a>ElementType[] value();</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> ElementType &#123;</span><br><span class="line">        <span class="comment">/** Class, interface (including annotation type), or enum declaration */</span></span><br><span class="line">        TYPE,</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** Field declaration (includes enum constants) */</span></span><br><span class="line">        FIELD,</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** Method declaration */</span></span><br><span class="line">        METHOD,</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** Formal parameter declaration */</span></span><br><span class="line">        PARAMETER,</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** Constructor declaration */</span></span><br><span class="line">        CONSTRUCTOR,</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** Local variable declaration */</span></span><br><span class="line">        LOCAL_VARIABLE,</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** Annotation type declaration */</span></span><br><span class="line">        ANNOTATION_TYPE,</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** Package declaration */</span></span><br><span class="line">        PACKAGE,</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Type parameter declaration</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@since</span> 1.8</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        TYPE_PARAMETER,</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Use of a type</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@since</span> 1.8</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        TYPE_USE</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​    jdk1.8中共有10个取值<br>​    - TYPE：用来修饰类、接口（包括注解类型）和枚举类型<br>​    - FIELD：用来修饰域（包含枚举常量），域相当于类里的成员变量<br>​    - METHOD：用来修饰方法<br>​    - PARAMETER：用来修饰形式参数<br>​    - CONSTRUCTOR：用来修饰构造器<br>​    - LOCAL_VARIABLE：用来修饰局部变量<br>​    - ANNOTATION_TYPE：用来修饰注解类型<br>​    - PACKAGE：用来修饰包<br>​    - TYPE_PARAMETER（@since 1.8）：用来修饰参数类型<br>​    - TYPE_USE（@since 1.8）：可以用于标注任意类型(不包括class)</p>
+<h3 id="Inherited"><a href="#Inherited" class="headerlink" title="@Inherited"></a>@Inherited</h3><blockquote>
+<p>阐述了某个被标注的类型是被继承的。如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个annotation将被用于该class的子类</p>
+</blockquote>
+<h2 id="标准注解"><a href="#标准注解" class="headerlink" title="标准注解"></a>标准注解</h2><ul>
+<li>@Override：表示被修饰的方法覆盖了父类的方法</li>
+<li>@Deprecated：表示被修饰的类或类成员已经在当前jdk版本被遗弃了，通常来说使用这些是危险的，也可能是因为出现了其他更好的解决方案。</li>
+<li>@SuppressWarnings：表示告诉Java编译器关闭对类、方法及成员变量的警告。</li>
+</ul>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://juejin.im/entry/57e496fd7db2a20063a24a3a" target="_blank" rel="noopener">https://juejin.im/entry/57e496fd7db2a20063a24a3a</a><br><a href="http://josh-persistence.iteye.com/blog/2226493" target="_blank" rel="noopener">http://josh-persistence.iteye.com/blog/2226493</a></p>
+<blockquote>
+<p>大部分正义感都是虚伪的 聊胜于无   —————————————————————————沃德彭尤·胡某</p>
+</blockquote>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#注解"><span class="toc-number">1.</span> <span class="toc-text">注解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#元注解"><span class="toc-number">1.1.</span> <span class="toc-text">元注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Documented"><span class="toc-number">1.1.1.</span> <span class="toc-text">@Documented</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Retention"><span class="toc-number">1.1.2.</span> <span class="toc-text">@Retention</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Target"><span class="toc-number">1.1.3.</span> <span class="toc-text">@Target</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ElementType-value"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">ElementType[] value();</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Inherited"><span class="toc-number">1.1.4.</span> <span class="toc-text">@Inherited</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标准注解"><span class="toc-number">1.2.</span> <span class="toc-text">标准注解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">2.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&text=Java注解【未完】" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&title=Java注解【未完】" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&is_video=false&description=Java注解【未完】" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Java注解【未完】&body=Check out this article: https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&title=Java注解【未完】" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&title=Java注解【未完】" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&title=Java注解【未完】" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&title=Java注解【未完】" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2018/04/17/Java%E6%B3%A8%E8%A7%A3/&name=Java注解【未完】&description=&lt;blockquote&gt;
+&lt;p&gt;Annotation其实是一种接口。通过Java的反射机制相关的API来访问Annotation信息。相关类（框架或工具中的类即使用注解的类）根据这些信息来决定如何使用该程序元素或改变它们的行为。&lt;/p&gt;
+&lt;/blockquote&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 qianhangkang
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'qianhangkang';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Redis！Redis！">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis学习笔记">
+<meta property="og:url" content="https:&#x2F;&#x2F;cnhkblog.top&#x2F;2019&#x2F;11&#x2F;02&#x2F;Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0&#x2F;index.html">
+<meta property="og:site_name" content="萍水相逢 互道安好">
+<meta property="og:description" content="Redis！Redis！">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-02T06:53:27.565Z">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Redis学习笔记</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/02/%E5%85%B3%E4%BA%8E%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%87%A0%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/02/Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3%E7%AC%94%E8%AE%B0/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=Redis学习笔记" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Redis学习笔记" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=Redis学习笔记" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Redis学习笔记&body=Check out this article: https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Redis学习笔记" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Redis学习笔记" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Redis学习笔记" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Redis学习笔记" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=Redis学习笔记&description=&lt;p&gt;Redis！Redis！&lt;/p&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#特性"><span class="toc-number">1.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">1.2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令"><span class="toc-number">1.3.</span> <span class="toc-text">常用命令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis"><span class="toc-number">2.</span> <span class="toc-text">Redis</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#过期策略"><span class="toc-number">2.1.</span> <span class="toc-text">过期策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存淘汰策略"><span class="toc-number">2.2.</span> <span class="toc-text">内存淘汰策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#持久化策略"><span class="toc-number">2.3.</span> <span class="toc-text">持久化策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis内存回收策略"><span class="toc-number">2.4.</span> <span class="toc-text">Redis内存回收策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#引用计数法"><span class="toc-number">2.4.1.</span> <span class="toc-text">引用计数法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#部署方式"><span class="toc-number">2.5.</span> <span class="toc-text">部署方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主从模式"><span class="toc-number">2.5.1.</span> <span class="toc-text">主从模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#本机配置"><span class="toc-number">2.5.1.1.</span> <span class="toc-text">本机配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哨兵模式"><span class="toc-number">2.5.2.</span> <span class="toc-text">哨兵模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#本地配置"><span class="toc-number">2.5.2.1.</span> <span class="toc-text">本地配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集群模式"><span class="toc-number">2.5.3.</span> <span class="toc-text">集群模式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">3.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Redis学习笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">萍水相逢 互道安好</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-11-02T06:52:19.000Z" itemprop="datePublished">2019-11-02</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Redis/" rel="tag">Redis</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Redis！Redis！</p>
+<a id="more"></a>
+
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
+<p>Redis is an open source (BSD licensed), in-memory <strong>data structure store</strong>, used as a database, cache and message broker. It supports data structures such as <a href="https://redis.io/topics/data-types-intro#strings" target="_blank" rel="noopener">strings</a>, <a href="https://redis.io/topics/data-types-intro#hashes" target="_blank" rel="noopener">hashes</a>, <a href="https://redis.io/topics/data-types-intro#lists" target="_blank" rel="noopener">lists</a>, <a href="https://redis.io/topics/data-types-intro#sets" target="_blank" rel="noopener">sets</a>, <a href="https://redis.io/topics/data-types-intro#sorted-sets" target="_blank" rel="noopener">sorted sets</a> with range queries, <a href="https://redis.io/topics/data-types-intro#bitmaps" target="_blank" rel="noopener">bitmaps</a>, <a href="https://redis.io/topics/data-types-intro#hyperloglogs" target="_blank" rel="noopener">hyperloglogs</a> and <a href="https://redis.io/commands/geoadd" target="_blank" rel="noopener">geospatial indexes</a> with radius queries. Redis has built-in <a href="https://redis.io/topics/replication" target="_blank" rel="noopener">replication</a>, <a href="https://redis.io/commands/eval" target="_blank" rel="noopener">Lua scripting</a>, <a href="https://redis.io/topics/lru-cache" target="_blank" rel="noopener">LRU eviction</a>, <a href="https://redis.io/topics/transactions" target="_blank" rel="noopener">transactions</a> and different levels of <a href="https://redis.io/topics/persistence" target="_blank" rel="noopener">on-disk persistence</a>, and provides high availability via <a href="https://redis.io/topics/sentinel" target="_blank" rel="noopener">Redis Sentinel</a> and automatic partitioning with <a href="https://redis.io/topics/cluster-tutorial" target="_blank" rel="noopener">Redis Cluster</a>.</p>
+</blockquote>
+<p>Redis是一个开源（BSD许可），内存数据结构存储，用作数据库，缓存和消息代理。 它支持的数据结构有字符串，hash，列表，集合，带有范围查询的排序集，位图，超级日志和带有半径查询的地理空间索引。 Redis具有内置复制，Lua脚本，LRU驱逐，事务和不同级别的磁盘持久性，并通过Redis Sentinel提供高可用性并使用Redis Cluster自动分区。</p>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><ol>
+<li>速度快，最快可达到 <code>10w QPS</code>（基于 <strong>内存</strong>，<code>C</code> 语言，<strong>单进程单线程</strong> 架构）</li>
+<li>基于 <strong>键值对</strong> (<code>key/value</code>) 的数据结构服务器。全称 <code>Remote Dictionary Server</code>。包括 <code>string</code>(<strong>字符串</strong>)、<code>hash</code>(<strong>哈希</strong>)、<code>list</code>(<strong>列表</strong>)、<code>set</code>(<strong>集合</strong>)、<code>zset</code>(<strong>有序集合</strong>)、<code>bitmap</code>(<strong>位图</strong>)。同时在 <strong>字符串</strong> 的基础上演变出 <strong>位图</strong>（<code>BitMaps</code>）和 <code>HyperLogLog</code> 两种数据结构。<code>3.2</code> 版本中加入 <code>GEO</code>（<strong>地理信息位置</strong>）</li>
+<li>丰富的功能。例如：<strong>键过期</strong>（缓存），<strong>发布订阅</strong>（消息队列）， <code>Lua</code> 脚本（自己实现 <code>Redis</code> 命令），<strong>事务</strong>，<strong>流水线</strong>（<code>Pipeline</code>，用于减少网络开销）</li>
+<li>简单稳定。无外部库依赖，单线程模型</li>
+<li>客户端语言多</li>
+<li>持久化<strong>（支持两种</strong> 持久化方式 <code>RDB</code> 和 <code>AOF</code>）</li>
+<li>主从复制（分布式的基础）</li>
+<li><strong>高可用</strong>（<code>Redis Sentinel</code>），<strong>分布式</strong>（<code>Redis Cluster</code>）和 <strong>水平扩容</strong></li>
+</ol>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
+<li><p>Mac</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install redis</span><br></pre></td></tr></table></figure>
+
+<p>对应的配置文件在<code>/usr/local/etc/redis.conf</code></p>
+</li>
+</ul>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><ul>
+<li><p>启动命令(Mac下用homebrew安装)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server /usr/local/etc/redis.conf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关闭指定端口的redis</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -p &#123;port&#125; shutdown</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看redis信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">info</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="过期策略"><a href="#过期策略" class="headerlink" title="过期策略"></a>过期策略</h2><ol>
+<li><p>定时删除</p>
+<p>为设置了过期时间的key设置一个定时器。该策略可能造成占用大量的CPU时间</p>
+</li>
+<li><p>定期删除</p>
+<p>每隔一段时间（配置文件中的hz，默认为10）删除已过期的key。是定时删除和惰性删除的解决方案</p>
+</li>
+<li><p>惰性删除</p>
+<p>当Redis访问一个key时，判断这个key是否过期，如果过期了那么删除这个key。对CPU占用小，但是可能造成内存的浪费</p>
+</li>
+</ol>
+<p><strong>Redis同时使用了定期删除和惰性删除</strong></p>
+<h2 id="内存淘汰策略"><a href="#内存淘汰策略" class="headerlink" title="内存淘汰策略"></a>内存淘汰策略</h2><p>当Redis执行每个命令的时候都会检查当前使用的内存是否超过配置中规定的maxmemory，如果超过，那么会执行对应的内存淘汰策略</p>
+<p>以下是redis配置文件中摘录的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># MAXMEMORY POLICY: how Redis will select what to remove when maxmemory</span><br><span class="line"># is reached. You can select among five behaviors:</span><br><span class="line">#</span><br><span class="line"># volatile-lru -&gt; remove the key with an expire set using an LRU algorithm</span><br><span class="line"># allkeys-lru -&gt; remove any key according to the LRU algorithm</span><br><span class="line"># volatile-random -&gt; remove a random key with an expire set</span><br><span class="line"># allkeys-random -&gt; remove a random key, any key</span><br><span class="line"># volatile-ttl -&gt; remove the key with the nearest expire time (minor TTL)</span><br><span class="line"># noeviction -&gt; don&apos;t expire at all, just return an error on write operations</span><br><span class="line">#</span><br><span class="line"># Note: with any of the above policies, Redis will return an error on write</span><br><span class="line">#       operations, when there are no suitable keys for eviction.</span><br><span class="line">#</span><br><span class="line">#       At the date of writing these commands are: set setnx setex append</span><br><span class="line">#       incr decr rpush lpush rpushx lpushx linsert lset rpoplpush sadd</span><br><span class="line">#       sinter sinterstore sunion sunionstore sdiff sdiffstore zadd zincrby</span><br><span class="line">#       zunionstore zinterstore hset hsetnx hmset hincrby incrby decrby</span><br><span class="line">#       getset mset msetnx exec sort</span><br><span class="line">#</span><br><span class="line"># The default is:</span><br><span class="line">#</span><br><span class="line"># maxmemory-policy noeviction</span><br></pre></td></tr></table></figure>
+
+<p>共有六种淘汰策略</p>
+<ul>
+<li><p>noeviction</p>
+<p>对于写入操作报错，不会淘汰任何数据</p>
+</li>
+<li><p>allkeys-random</p>
+<p>随机淘汰任意一个数据</p>
+</li>
+<li><p>volatile-random</p>
+<p>从已设置过期的数据集中随机淘汰一个数据</p>
+</li>
+<li><p>allkeys-lru</p>
+<p>根据最近最少使用策略淘汰任意一个数据</p>
+</li>
+<li><p>volatile-lru</p>
+<p>根据最近最少使用过策略从已设置过期的数据集中淘汰一个数据</p>
+</li>
+<li><p>volatile-ttl</p>
+<p>从已设置过期的数据集中淘汰即将过期的数据</p>
+</li>
+</ul>
+<p><strong>对于上述任何策略，当没有合适的可以被驱逐key时，Redis将在写入时返回错误操作</strong></p>
+<h2 id="持久化策略"><a href="#持久化策略" class="headerlink" title="持久化策略"></a>持久化策略</h2><ol>
+<li><p>RDB （默认策略）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># Save the DB on disk:</span><br><span class="line">#</span><br><span class="line">#   save &lt;seconds&gt; &lt;changes&gt;</span><br><span class="line">#</span><br><span class="line">#   Will save the DB if both the given number of seconds and the given</span><br><span class="line">#   number of write operations against the DB occurred.</span><br><span class="line">#</span><br><span class="line">#   In the example below the behaviour will be to save:</span><br><span class="line">#   after 900 sec (15 min) if at least 1 key changed</span><br><span class="line">#   after 300 sec (5 min) if at least 10 keys changed</span><br><span class="line">#   after 60 sec if at least 10000 keys changed</span><br><span class="line">#</span><br><span class="line">#   Note: you can disable saving completely by commenting out all &quot;save&quot; lines.</span><br><span class="line">#</span><br><span class="line">#   It is also possible to remove all the previously configured save</span><br><span class="line">#   points by adding a save directive with a single empty string argument</span><br><span class="line">#   like in the following example:</span><br><span class="line">#</span><br><span class="line">#   save &quot;&quot;</span><br><span class="line"></span><br><span class="line">save 900 1    #after 900 sec (15 min) if at least 1 key changed</span><br><span class="line">save 300 10   #after 300 sec (5 min) if at least 10 keys changed</span><br><span class="line">save 60 10000 #after 60 sec if at least 10000 keys changed</span><br></pre></td></tr></table></figure>
+
+<p>该方式会按照指定的时间策略将数据快照（dump.rdb）文件保存在硬盘上，如果发生意外，那么数据快照可能不是最新的，可能丢失几分钟的数据</p>
+</li>
+<li><p>AOF</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># By default Redis asynchronously dumps the dataset on disk. This mode is</span><br><span class="line"># good enough in many applications, but an issue with the Redis process or</span><br><span class="line"># a power outage may result into a few minutes of writes lost (depending on</span><br><span class="line"># the configured save points).</span><br><span class="line">#</span><br><span class="line"># The Append Only File is an alternative persistence mode that provides</span><br><span class="line"># much better durability. For instance using the default data fsync policy</span><br><span class="line"># (see later in the config file) Redis can lose just one second of writes in a</span><br><span class="line"># dramatic event like a server power outage, or a single write if something</span><br><span class="line"># wrong with the Redis process itself happens, but the operating system is</span><br><span class="line"># still running correctly.</span><br><span class="line">#</span><br><span class="line"># AOF and RDB persistence can be enabled at the same time without problems.</span><br><span class="line"># If the AOF is enabled on startup Redis will load the AOF, that is the file</span><br><span class="line"># with the better durability guarantees.</span><br></pre></td></tr></table></figure>
+
+<p>Redis会将接受到的写命令写入到制定的文件中（默认为appendonly.aof），使用该方式持久化在遇到突发事件如断电时只会丢失一秒的写入数据，或者在Redis进程奔溃时但操作系统依旧正确的运行时只会丢失一次写入数据。</p>
+<p>Redis有三种数据fsync策略</p>
+<ol>
+<li><p>appendfsync everysec</p>
+<p>每秒将buffer中的写入命令写入到文件中。这是默认使用的策略，是一种性能和数据安全的折中策略</p>
+</li>
+<li><p>appendfsync no</p>
+<p>依赖操作系统的写入，一般30s左右写入一次。性能最好，但是无法保证数据安全</p>
+</li>
+<li><p>appendfsync always</p>
+<p>每个命令都会直接写入到文件中。数据安全，但性能低下</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="Redis内存回收策略"><a href="#Redis内存回收策略" class="headerlink" title="Redis内存回收策略"></a>Redis内存回收策略</h2><h3 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h3><ul>
+<li>在创建一个新对象时， 引用计数的值会被初始化为 <code>1</code> ；</li>
+<li>当对象被一个新程序使用时， 它的引用计数值会被增一；</li>
+<li>当对象不再被一个程序使用时， 它的引用计数值会被减一；</li>
+<li>当对象的引用计数值变为 <code>0</code> 时， 对象所占用的内存会被释放。</li>
+</ul>
+<h2 id="部署方式"><a href="#部署方式" class="headerlink" title="部署方式"></a>部署方式</h2><h3 id="主从模式"><a href="#主从模式" class="headerlink" title="主从模式"></a>主从模式</h3><p>缓解主库压力，做读写分离（从库默认情况下无法写入，只能读取）。如果主节点down，那么只能手动恢复主节点。哨兵模式解决了自动化的故障恢复</p>
+<h4 id="本机配置"><a href="#本机配置" class="headerlink" title="本机配置"></a>本机配置</h4><ul>
+<li>master实例，端口6379</li>
+<li>slave1实例，端口20000</li>
+<li>slave2实例，端口20001</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># master配置(/redis_conf/redis-master.conf)，其余默认</span><br><span class="line">bind 127.0.0.1</span><br><span class="line">port 6379</span><br><span class="line"># slave1配置(/redis_conf/redis-slave-20000.conf)，其余默认</span><br><span class="line">slaveof 127.0.0.1 6379</span><br><span class="line">port 20000</span><br><span class="line"># slave2配置(/redis_conf/redis-slave-20001.conf)，其余默认</span><br><span class="line">slaveof 127.0.0.1 6379</span><br><span class="line">port 20001</span><br></pre></td></tr></table></figure>
+
+<p>依次启动master、slave</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-server /redis_conf/redis-master.conf</span><br><span class="line">redis-server /redis_conf/redis-slave-20000.conf</span><br><span class="line">redis-server /redis_conf/redis-slave-20001.conf</span><br></pre></td></tr></table></figure>
+
+<p>输入<code>redis-cli -p 6379</code>进入master的客户端，输入<code>info replication</code>查看从节点，显示如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># Replication</span><br><span class="line">role:master</span><br><span class="line">connected_slaves:2</span><br><span class="line">slave0:ip=127.0.0.1,port=20001,state=online,offset=380,lag=0</span><br><span class="line">slave1:ip=127.0.0.1,port=20000,state=online,offset=380,lag=0</span><br><span class="line">master_repl_offset:380</span><br><span class="line">repl_backlog_active:1</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:2</span><br><span class="line">repl_backlog_histlen:379</span><br></pre></td></tr></table></figure>
+
+<p>主节点写入一个key-value就能在两个从节点中get到</p>
+<h3 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h3><blockquote>
+<p>主从机制，上面的方案中主服务器可能存在单点故障，万一主服务器宕机，这是个麻烦事情，所以Redis提供了Redis-Sentinel，以此来实现主从切换的功能，类似与zookeeper。</p>
+<p>Redis-Sentinel是Redis官方推荐的高可用性(HA)解决方案，当用Redis做master-slave的高可用方案时，假如master宕机了，Redis本身(包括它的很多客户端)都没有实现自动进行主备切换，而Redis-Sentinel本身也是一个独立运行的进程，它能监控多个master-slave集群，发现master宕机后能进行自动切换。</p>
+<p>它的主要功能有以下几点</p>
+<ul>
+<li>监控（Monitoring）：不断地检查redis的主服务器和从服务器是否运作正常。</li>
+<li>提醒（Notification）：如果发现某个redis服务器运行出现状况，可以通过 API 向管理员或者其他应用程序发送通知。</li>
+<li>自动故障迁移（Automatic failover）：能够进行自动切换。当一个主服务器不能正常工作时，会将失效主服务器的其中一个从服务器升级为新的主服务器，并让失效主服务器的其他从服务器改为复制新的主服务器； 当客户端试图连接失效的主服务器时， 集群也会向客户端返回新主服务器的地址， 使得集群可以使用新主服务器代替失效服务器。</li>
+</ul>
+</blockquote>
+<h4 id="本地配置"><a href="#本地配置" class="headerlink" title="本地配置"></a>本地配置</h4><p>现在运行了三个redis实例，一主两从</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ps -ef | grep redis</span><br><span class="line">root       869     1  0 9月11 ?       00:01:34 redis-server 127.0.0.1:20001</span><br><span class="line">root      1181     1  0 9月11 ?       00:01:35 redis-server 127.0.0.1:20000</span><br><span class="line">root     23943 19684  0 10:27 pts/3    00:00:00 redis-server 127.0.0.1:6379</span><br></pre></td></tr></table></figure>
+
+<p>编写三个配置sentinel配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">port 10000</span><br><span class="line">sentinel monitor mymaster 127.0.0.1 6300 2</span><br><span class="line">port 10001</span><br><span class="line">sentinel monitor mymaster 127.0.0.1 6300 2</span><br><span class="line">port 10002</span><br><span class="line">sentinel monitor mymaster 127.0.0.1 6300 2</span><br></pre></td></tr></table></figure>
+
+<p>用<code>redis-sentinel {sentinel-conf}</code>运行三个sentinel实例</p>
+<p>然后将端口为6379的master干掉<code>redis-cli -p 6379 shutdown</code></p>
+<p>此时会发现某个slave通过选举晋升为了master</p>
+<p>如端口为20000的slave晋升为了master，查看info</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#Replication</span><br><span class="line">role:master # 角色变为了master</span><br><span class="line">connected_slaves:1</span><br><span class="line">slave0:ip=127.0.0.1,port=20001,state=online,offset=30728,lag=0 #拥有一个端口为20001的slave</span><br><span class="line">master_repl_offset:30728</span><br><span class="line">repl_backlog_active:1</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:2</span><br><span class="line">repl_backlog_histlen:30727</span><br></pre></td></tr></table></figure>
+
+<h3 id="集群模式"><a href="#集群模式" class="headerlink" title="集群模式"></a>集群模式</h3><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://juejin.im/post/5b76e732f265da4376203849" target="_blank" rel="noopener">https://juejin.im/post/5b76e732f265da4376203849</a></p>
+<p><a href="https://juejin.im/post/5b7d226a6fb9a01a1e01ff64" target="_blank" rel="noopener">https://juejin.im/post/5b7d226a6fb9a01a1e01ff64</a></p>
+<p><a href="http://blog.720ui.com/2016/redis_action_04_cluster/" target="_blank" rel="noopener">http://blog.720ui.com/2016/redis_action_04_cluster/</a></p>
+<blockquote>
+<p><em>大部分正义感都是虚伪的 聊胜于无   —————————————————————————沃德彭尤·胡某</em></p>
+</blockquote>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#特性"><span class="toc-number">1.1.</span> <span class="toc-text">特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">1.2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令"><span class="toc-number">1.3.</span> <span class="toc-text">常用命令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis"><span class="toc-number">2.</span> <span class="toc-text">Redis</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#过期策略"><span class="toc-number">2.1.</span> <span class="toc-text">过期策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存淘汰策略"><span class="toc-number">2.2.</span> <span class="toc-text">内存淘汰策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#持久化策略"><span class="toc-number">2.3.</span> <span class="toc-text">持久化策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis内存回收策略"><span class="toc-number">2.4.</span> <span class="toc-text">Redis内存回收策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#引用计数法"><span class="toc-number">2.4.1.</span> <span class="toc-text">引用计数法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#部署方式"><span class="toc-number">2.5.</span> <span class="toc-text">部署方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主从模式"><span class="toc-number">2.5.1.</span> <span class="toc-text">主从模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#本机配置"><span class="toc-number">2.5.1.1.</span> <span class="toc-text">本机配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哨兵模式"><span class="toc-number">2.5.2.</span> <span class="toc-text">哨兵模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#本地配置"><span class="toc-number">2.5.2.1.</span> <span class="toc-text">本地配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集群模式"><span class="toc-number">2.5.3.</span> <span class="toc-text">集群模式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">3.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=Redis学习笔记" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Redis学习笔记" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&is_video=false&description=Redis学习笔记" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Redis学习笔记&body=Check out this article: https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Redis学习笔记" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Redis学习笔记" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Redis学习笔记" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=Redis学习笔记" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2019/11/02/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&name=Redis学习笔记&description=&lt;p&gt;Redis！Redis！&lt;/p&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 qianhangkang
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'qianhangkang';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

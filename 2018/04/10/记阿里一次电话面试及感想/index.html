@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="今天大概下午五点的时候接到电话，自称是阿里的，问我现在方便吗。当时正吃完饭走在回实验室的路上，于是让他过半个小时再打给我，他说那我五点四十打你吧。紧张的跑回实验室，对着电脑却不知道该看什么，总觉的这也不了解，那也还没掌握，迷糊了半小时。 五点四十，电话准时响起。">
+<meta name="keywords" content="面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记阿里一次电话面试及感想">
+<meta property="og:url" content="https:&#x2F;&#x2F;cnhkblog.top&#x2F;2018&#x2F;04&#x2F;10&#x2F;%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3&#x2F;index.html">
+<meta property="og:site_name" content="萍水相逢 互道安好">
+<meta property="og:description" content="今天大概下午五点的时候接到电话，自称是阿里的，问我现在方便吗。当时正吃完饭走在回实验室的路上，于是让他过半个小时再打给我，他说那我五点四十打你吧。紧张的跑回实验室，对着电脑却不知道该看什么，总觉的这也不了解，那也还没掌握，迷糊了半小时。 五点四十，电话准时响起。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-02T06:24:24.419Z">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>记阿里一次电话面试及感想</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/04/12/Java%E9%9B%86%E5%90%88%E7%B1%BB%E6%95%B4%E7%90%86/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/04/06/JDK9%E4%B8%ADHashMap%E7%9A%84%E5%88%86%E6%9E%90/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&text=记阿里一次电话面试及感想" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&title=记阿里一次电话面试及感想" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&is_video=false&description=记阿里一次电话面试及感想" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=记阿里一次电话面试及感想&body=Check out this article: https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&title=记阿里一次电话面试及感想" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&title=记阿里一次电话面试及感想" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&title=记阿里一次电话面试及感想" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&title=记阿里一次电话面试及感想" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&name=记阿里一次电话面试及感想&description=&lt;p&gt;今天大概下午五点的时候接到电话，自称是阿里的，问我现在方便吗。当时正吃完饭走在回实验室的路上，于是让他过半个小时再打给我，他说那我五点四十打你吧。紧张的跑回实验室，对着电脑却不知道该看什么，总觉的这也不了解，那也还没掌握，迷糊了半小时。&lt;/p&gt;
+&lt;p&gt;五点四十，电话准时响起。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#自我介绍"><span class="toc-number">1.</span> <span class="toc-text">自我介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自我介绍-1"><span class="toc-number">1.1.</span> <span class="toc-text">自我介绍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目"><span class="toc-number">2.</span> <span class="toc-text">项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单的介绍下你的项目"><span class="toc-number">2.1.</span> <span class="toc-text">简单的介绍下你的项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#讲一讲如何实现断点上传（他问的断点下载，我说我们只实现了断点上传）"><span class="toc-number">2.2.</span> <span class="toc-text">讲一讲如何实现断点上传（他问的断点下载，我说我们只实现了断点上传）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组装的时候你是如何确定分片的顺序的"><span class="toc-number">2.3.</span> <span class="toc-text">组装的时候你是如何确定分片的顺序的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#你为什么要用hibernate框架"><span class="toc-number">2.4.</span> <span class="toc-text">你为什么要用hibernate框架</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java基础"><span class="toc-number">3.</span> <span class="toc-text">Java基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java的基本数据类型有哪些"><span class="toc-number">3.1.</span> <span class="toc-text">Java的基本数据类型有哪些</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#你用过哪些Java的集合类，List和Set有什么区别"><span class="toc-number">3.2.</span> <span class="toc-text">你用过哪些Java的集合类，List和Set有什么区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java的值传递和引用传递能说一说嘛"><span class="toc-number">3.3.</span> <span class="toc-text">Java的值传递和引用传递能说一说嘛</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有用过多线程嘛，线程创建的方式有哪几种，能说说线程池吗"><span class="toc-number">3.4.</span> <span class="toc-text">有用过多线程嘛，线程创建的方式有哪几种，能说说线程池吗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stringbuilder和stringbuff有什么区别"><span class="toc-number">3.5.</span> <span class="toc-text">stringbuilder和stringbuff有什么区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库"><span class="toc-number">4.</span> <span class="toc-text">数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#你熟悉哪些数据库？MySQL有哪些基本的数据类型"><span class="toc-number">4.1.</span> <span class="toc-text">你熟悉哪些数据库？MySQL有哪些基本的数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#那char和varchar的区别是什么？"><span class="toc-number">4.2.</span> <span class="toc-text">那char和varchar的区别是什么？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统"><span class="toc-number">5.</span> <span class="toc-text">操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#计算机中除了硬盘之外还有哪些存储结构？"><span class="toc-number">5.1.</span> <span class="toc-text">计算机中除了硬盘之外还有哪些存储结构？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哪个访问速度最快？"><span class="toc-number">5.2.</span> <span class="toc-text">哪个访问速度最快？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法与数据结构"><span class="toc-number">6.</span> <span class="toc-text">算法与数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据结构应该学过吧，你知道哪些数据结构？"><span class="toc-number">6.1.</span> <span class="toc-text">数据结构应该学过吧，你知道哪些数据结构？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#栈和队列有哪些区别？"><span class="toc-number">6.2.</span> <span class="toc-text">栈和队列有哪些区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#能说下二叉平衡树是怎么实现平衡的？"><span class="toc-number">6.3.</span> <span class="toc-text">能说下二叉平衡树是怎么实现平衡的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#你了解过哪些算法？"><span class="toc-number">6.4.</span> <span class="toc-text">你了解过哪些算法？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#你能说说冒泡排序的原理吗"><span class="toc-number">6.5.</span> <span class="toc-text">你能说说冒泡排序的原理吗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#那冒泡排序在最坏的情况下需要移动多少次"><span class="toc-number">6.6.</span> <span class="toc-text">那冒泡排序在最坏的情况下需要移动多少次</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#那么最少呢？"><span class="toc-number">6.7.</span> <span class="toc-text">那么最少呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#让你实现一个函数，从1-…-n，你怎么实现？"><span class="toc-number">6.8.</span> <span class="toc-text">让你实现一个函数，从1+…+n，你怎么实现？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM与GC"><span class="toc-number">7.</span> <span class="toc-text">JVM与GC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#说一说JVM内存模型"><span class="toc-number">7.1.</span> <span class="toc-text">说一说JVM内存模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#能说一说OOM吗"><span class="toc-number">7.2.</span> <span class="toc-text">能说一说OOM吗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#垃圾回收你知道哪几种算法"><span class="toc-number">7.3.</span> <span class="toc-text">垃圾回收你知道哪几种算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标记清除算法能说说么"><span class="toc-number">7.4.</span> <span class="toc-text">标记清除算法能说说么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#那现在标记清楚算法还用吗？"><span class="toc-number">7.5.</span> <span class="toc-text">那现在标记清楚算法还用吗？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#还记的我的名字么"><span class="toc-number">8.</span> <span class="toc-text">还记的我的名字么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#感想"><span class="toc-number">9.</span> <span class="toc-text">感想</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        记阿里一次电话面试及感想
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">萍水相逢 互道安好</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-04-10T12:25:17.000Z" itemprop="datePublished">2018-04-10</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>今天大概下午五点的时候接到电话，自称是阿里的，问我现在方便吗。当时正吃完饭走在回实验室的路上，于是让他过半个小时再打给我，他说那我五点四十打你吧。紧张的跑回实验室，对着电脑却不知道该看什么，总觉的这也不了解，那也还没掌握，迷糊了半小时。</p>
+<p>五点四十，电话准时响起。</p>
+<a id="more"></a>
+
+
+
+<h2 id="自我介绍"><a href="#自我介绍" class="headerlink" title="自我介绍"></a>自我介绍</h2><p>首先是这位老哥的自我介绍（为了最后的彩蛋做准备）</p>
+<h3 id="自我介绍-1"><a href="#自我介绍-1" class="headerlink" title="自我介绍"></a>自我介绍</h3><p>这里就照着之前准备的背了出来。基本上谈谈自己在学校学了什么，做过什么项目（接下来基本上会问到你的项目），以及日常体育运动。</p>
+<hr>
+<h2 id="项目"><a href="#项目" class="headerlink" title="项目"></a>项目</h2><h3 id="简单的介绍下你的项目"><a href="#简单的介绍下你的项目" class="headerlink" title="简单的介绍下你的项目"></a>简单的介绍下你的项目</h3><p>我大二做过一个工具上传下载管理系统的项目。我就简单的跟他介绍说类似网盘，支持断点续传，同时多了一些社交元素在里面，支持点赞、评论、求助等功能。</p>
+<h3 id="讲一讲如何实现断点上传（他问的断点下载，我说我们只实现了断点上传）"><a href="#讲一讲如何实现断点上传（他问的断点下载，我说我们只实现了断点上传）" class="headerlink" title="讲一讲如何实现断点上传（他问的断点下载，我说我们只实现了断点上传）"></a>讲一讲如何实现断点上传（他问的断点下载，我说我们只实现了断点上传）</h3><p>前端用了webuploader框架，每次上传分块之前都会将分块的md5传到服务器查询，如果上传过则忽略，没有则继续上传。全部分片上传完之后会通知服务器拼装分片。</p>
+<p>面试官在这里反复提问了如何实现了断点续传，用了TCP还是UDP还是HTTP的方式。然后还让我重新讲了一遍上传的流程。问我服务器在这期间到底干了那几件事情。</p>
+<h3 id="组装的时候你是如何确定分片的顺序的"><a href="#组装的时候你是如何确定分片的顺序的" class="headerlink" title="组装的时候你是如何确定分片的顺序的"></a>组装的时候你是如何确定分片的顺序的</h3><p>分片上传的时候会将分片的序号一同上传给服务器</p>
+<h3 id="你为什么要用hibernate框架"><a href="#你为什么要用hibernate框架" class="headerlink" title="你为什么要用hibernate框架"></a>你为什么要用hibernate框架</h3><p>这里瞎扯了一些，主要是因为hibernate只在当时的竞赛用过，到现在都忘得差不多了。不过还是跟他说了hibernate有其独特的HQL，更加面向对象。</p>
+<hr>
+<h2 id="Java基础"><a href="#Java基础" class="headerlink" title="Java基础"></a>Java基础</h2><h3 id="Java的基本数据类型有哪些"><a href="#Java的基本数据类型有哪些" class="headerlink" title="Java的基本数据类型有哪些"></a>Java的基本数据类型有哪些</h3><p>char、byte、int、double、float、long、Boolean。我不小心还说了String，面试官马上提示了你，我赶紧说说错了，是char，不是String</p>
+<h3 id="你用过哪些Java的集合类，List和Set有什么区别"><a href="#你用过哪些Java的集合类，List和Set有什么区别" class="headerlink" title="你用过哪些Java的集合类，List和Set有什么区别"></a>你用过哪些Java的集合类，List和Set有什么区别</h3><p>由于之前一直在研究HashMap的源码，于是就回答了在项目中只用HashMap（就是想暗示他问我关于hashmap的问题，结果问了List和Set有啥区别，一下子没想起来，面试官友善的提示了下。）</p>
+<p>List是有序的Collection，允许重复元素；Set无序，不允许重复元素</p>
+<h3 id="Java的值传递和引用传递能说一说嘛"><a href="#Java的值传递和引用传递能说一说嘛" class="headerlink" title="Java的值传递和引用传递能说一说嘛"></a>Java的值传递和引用传递能说一说嘛</h3><p>在Java中是没有引用传递的，只有值传递。而值传递的意思是<strong>传递存储单元中的内容</strong>。</p>
+<ul>
+<li>对于基本数据类型来说，每次传递的时候都会将存储单元中的内容传递进去作为参数，只不过这个参数在内存也分配了空间，他的内容就是传递过来的参数，所以不管你怎么修改这个参数，都与原先传递进来的参数无关了。</li>
+<li>对于对象来说，对象的引用在栈内存中，实例对象的地址在堆内存中。每次传递参数的时候，JVM首先会在栈内存为方法的参数开辟一块空间，然后将对象引用所在的存储单元中的内容传递到这块空间中，而这块内容也就是引用的地址。因此，实际上传递的就是存储单元中的内容，属于值传递。</li>
+</ul>
+<h3 id="有用过多线程嘛，线程创建的方式有哪几种，能说说线程池吗"><a href="#有用过多线程嘛，线程创建的方式有哪几种，能说说线程池吗" class="headerlink" title="有用过多线程嘛，线程创建的方式有哪几种，能说说线程池吗"></a>有用过多线程嘛，线程创建的方式有哪几种，能说说线程池吗</h3><p>这里很老实的说没用过。。。</p>
+<p>线程创建的方式有继承Thread类，实现Runnable接口或Callable接口或Future接口</p>
+<p>线程池不会，贴个链接 <a href="https://liuzho.github.io/2017/04/17/%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%8C%E8%BF%99%E4%B8%80%E7%AF%87%E6%88%96%E8%AE%B8%E5%B0%B1%E5%A4%9F%E4%BA%86/" target="_blank" rel="noopener">Java线程池</a>，准备单独学习下。</p>
+<h3 id="stringbuilder和stringbuff有什么区别"><a href="#stringbuilder和stringbuff有什么区别" class="headerlink" title="stringbuilder和stringbuff有什么区别"></a>stringbuilder和stringbuff有什么区别</h3><p>这是倒数第二道问题，当时不知怎么回事实在想不起来，隐约记得与线程安全有关，但是之前答的不是很好加上紧张，就直接说想不起来了。还是基础太差惹的祸~谁给我的勇气投阿里…</p>
+<p>stringbuilder不是线程安全的，stringbuff是线程安全的，用了synchronized关键字修饰。</p>
+<hr>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><h3 id="你熟悉哪些数据库？MySQL有哪些基本的数据类型"><a href="#你熟悉哪些数据库？MySQL有哪些基本的数据类型" class="headerlink" title="你熟悉哪些数据库？MySQL有哪些基本的数据类型"></a>你熟悉哪些数据库？MySQL有哪些基本的数据类型</h3><p>这里我只回答了int、float、double、long（实际上没有，相对应的是bigint）、char、varchar、timestamp、datetime。</p>
+<p>MySQL的基本数据类型：</p>
+<ul>
+<li>数字类型<ul>
+<li>整数: tinyint、smallint、mediumint、int、bigint</li>
+<li>浮点数: float、double、real、decimal</li>
+</ul>
+</li>
+<li>日期和时间: date、time、datetime、timestamp、year</li>
+<li>字符串类型<ul>
+<li>字符串: char、varchar</li>
+<li>文本: tinytext、text、mediumtext、longtext</li>
+</ul>
+</li>
+<li>二进制(可用来存储图片、音乐等): tinyblob、blob、mediumblob、longblob</li>
+</ul>
+<h3 id="那char和varchar的区别是什么？"><a href="#那char和varchar的区别是什么？" class="headerlink" title="那char和varchar的区别是什么？"></a>那char和varchar的区别是什么？</h3><p>（没答出来，忘了哎，之前还用的时候还特意去看过）</p>
+<ul>
+<li>char是定长的字符串，因此容易造成空间的浪费。char的最大长度为255个字符，查找效率比varchar高。</li>
+<li>varchar是可变字符串，节省空间。实际长度是value长度+1，这一个字节用于保存实际使用了多大的长度，效率低于char。</li>
+</ul>
+<hr>
+<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="计算机中除了硬盘之外还有哪些存储结构？"><a href="#计算机中除了硬盘之外还有哪些存储结构？" class="headerlink" title="计算机中除了硬盘之外还有哪些存储结构？"></a>计算机中除了硬盘之外还有哪些存储结构？</h3><p>寄存器、cache、内存</p>
+<h3 id="哪个访问速度最快？"><a href="#哪个访问速度最快？" class="headerlink" title="哪个访问速度最快？"></a>哪个访问速度最快？</h3><p>寄存器，速度与CPU相当，但空间较小，在KB级别</p>
+<hr>
+<h2 id="算法与数据结构"><a href="#算法与数据结构" class="headerlink" title="算法与数据结构"></a>算法与数据结构</h2><h3 id="数据结构应该学过吧，你知道哪些数据结构？"><a href="#数据结构应该学过吧，你知道哪些数据结构？" class="headerlink" title="数据结构应该学过吧，你知道哪些数据结构？"></a>数据结构应该学过吧，你知道哪些数据结构？</h3><p>我回答 栈、队列、二叉树</p>
+<h3 id="栈和队列有哪些区别？"><a href="#栈和队列有哪些区别？" class="headerlink" title="栈和队列有哪些区别？"></a>栈和队列有哪些区别？</h3><p>栈是先进后出，队列是先进先出</p>
+<h3 id="能说下二叉平衡树是怎么实现平衡的？"><a href="#能说下二叉平衡树是怎么实现平衡的？" class="headerlink" title="能说下二叉平衡树是怎么实现平衡的？"></a>能说下二叉平衡树是怎么实现平衡的？</h3><p>这个真不知道，GG，老实跟他说不会。</p>
+<p>照例先贴个链接 <a href="https://blog.csdn.net/zhangvalue/article/details/76691562" target="_blank" rel="noopener">平衡二叉树详解</a>，单独学习。</p>
+<h3 id="你了解过哪些算法？"><a href="#你了解过哪些算法？" class="headerlink" title="你了解过哪些算法？"></a>你了解过哪些算法？</h3><p>我说我只了解过排序。。。</p>
+<h3 id="你能说说冒泡排序的原理吗"><a href="#你能说说冒泡排序的原理吗" class="headerlink" title="你能说说冒泡排序的原理吗"></a>你能说说冒泡排序的原理吗</h3><p>每次循环都将最大或最小的值移动到末尾（这里我可能没有表述的太清楚）</p>
+<p>复制个网上的答案：</p>
+<blockquote>
+<p><strong>冒泡排序</strong>（英语：<strong>Bubble Sort</strong>）是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。</p>
+</blockquote>
+<h3 id="那冒泡排序在最坏的情况下需要移动多少次"><a href="#那冒泡排序在最坏的情况下需要移动多少次" class="headerlink" title="那冒泡排序在最坏的情况下需要移动多少次"></a>那冒泡排序在最坏的情况下需要移动多少次</h3><p>我回答了n(n-1)/2，其实这个是比较的次数，面试官友善的问我是否确定，疑惑了下还是说了确定 :(</p>
+<p>事实上，答案是3n(n-1)/2，因为两个元素两两交换的时候你必须移动元素三次来达到交换的目的。如下，交换两个元素有4种方法：</p>
+<ol>
+<li><p>通过临时变量保存</p>
+</li>
+<li><p>a=a+b;</p>
+<p>b=a-b;</p>
+<p>a=a-b;</p>
+<p><strong>不会发生溢出</strong>，即使造成的溢出会在后边的减运算中被溢出回来。</p>
+</li>
+<li><p>a=a*b;</p>
+<p>b=a/b;</p>
+<p>a=a/b;</p>
+<p>类似第二种方法，但是溢出后无法交换，并且限制了b!=0</p>
+</li>
+<li><p>a=a^b;</p>
+<p>b=b^a;</p>
+<p>a=b^a;</p>
+<p>效率最高的一种方法</p>
+</li>
+</ol>
+<h3 id="那么最少呢？"><a href="#那么最少呢？" class="headerlink" title="那么最少呢？"></a>那么最少呢？</h3><p>0次。（面试官自己还带着恍然大悟的感觉重复了一遍…）</p>
+<h3 id="让你实现一个函数，从1-…-n，你怎么实现？"><a href="#让你实现一个函数，从1-…-n，你怎么实现？" class="headerlink" title="让你实现一个函数，从1+…+n，你怎么实现？"></a>让你实现一个函数，从1+…+n，你怎么实现？</h3><p>想了半天还是跟他说n*(n+1)/2，感觉没有get到他的考点。于是问我为什么能够用这个公式，我说不知道。他说不就是等差数列求和么。我恍然大悟。</p>
+<p>Google了下，感觉这道题目是为了考你的思维，让你给出多种解决方案</p>
+<ol>
+<li><p>循环</p>
+</li>
+<li><p>n*(n+1)/2</p>
+</li>
+<li><p>递归</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> n + add(n-<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不用加减乘除的做法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">return</span> n &gt; <span class="number">0</span> ? (n == <span class="number">1</span> ? <span class="number">1</span> : (n += add(n - <span class="number">1</span>))) : -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//等同于下面这种写法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> n += add3(n-<span class="number">1</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+</li>
+</ol>
+<h2 id="JVM与GC"><a href="#JVM与GC" class="headerlink" title="JVM与GC"></a>JVM与GC</h2><h3 id="说一说JVM内存模型"><a href="#说一说JVM内存模型" class="headerlink" title="说一说JVM内存模型"></a>说一说JVM内存模型</h3><p>栈、堆、方法区、本地方法区、程序计数器</p>
+<h3 id="能说一说OOM吗"><a href="#能说一说OOM吗" class="headerlink" title="能说一说OOM吗"></a>能说一说OOM吗</h3><p>这里我只回答了除了程序计数器之外，其他区都会发生OOM。其他就不知道了，他也没继续问。。。</p>
+<h3 id="垃圾回收你知道哪几种算法"><a href="#垃圾回收你知道哪几种算法" class="headerlink" title="垃圾回收你知道哪几种算法"></a>垃圾回收你知道哪几种算法</h3><p>标记清除、复制算法、标记整理</p>
+<h3 id="标记清除算法能说说么"><a href="#标记清除算法能说说么" class="headerlink" title="标记清除算法能说说么"></a>标记清除算法能说说么</h3><p>分为标记和清除，首先标记出需要回收的对象，然后在标记完成后统一回收被标记的对象。但是他会出现空间问题，内存中会出现大量大不连续的空间，不利于大对象的分配。这里我将效率问题弄反了，记成了效率最高。实际上标记清除算法效率不高。</p>
+<h3 id="那现在标记清楚算法还用吗？"><a href="#那现在标记清楚算法还用吗？" class="headerlink" title="那现在标记清楚算法还用吗？"></a>那现在标记清楚算法还用吗？</h3><p>我肯定的回答他还用。</p>
+<p>事后翻阅相关书籍觉得我在这里回答的太笼统随意了，因为目前来说只有CMS垃圾收集器用了这个算法，对于其他的垃圾收集器，老年代用的都是标记-整理算法。</p>
+<hr>
+<h2 id="还记的我的名字么"><a href="#还记的我的名字么" class="headerlink" title="还记的我的名字么"></a>还记的我的名字么</h2><p>这个问题问我的时候我也是懵了，脑袋一片空白，怎能记起四十多分钟前暗藏在他自我介绍中的名字，想了想最后还是不好意思的说不知道，面试官自己也笑了笑说没事，并重复了一遍，“我的名字叫刘nan”<del>说实话，阿里的面试官挺幽默的，也让我对他的名字记忆犹新，不知道以后有没有机会进阿里，如果有一定请他吃个饭哈哈</del></p>
+<hr>
+<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>谈谈自己的感想。</p>
+<ul>
+<li>先谈阿里。首先，作为一个二本的菜鸟，本来对收到阿里的面试并没有期待（道理你懂的），但是阿里还是给了机会，从这点看，我就觉得阿里挺有包容度的，或许这也是阿里能成为如此优秀的企业有关。</li>
+<li>阿里的面试官。仅从声音上分辨，感觉是一个三十出头的小哥，声音很有底气。在面试上，一些你回答的错误，他也会友善地纠正，有时也会友情的提示你，对于技术上的问题，会问到你不会为止。最后，他真的挺幽默、有套路的哈哈，“最后一个问题：还记得我名字”<del>~</del></li>
+<li>最后谈自己。首先，对于一个面试，心态没有很好的放平，虽然总暗示自己这只是一场面试，是一次学习的机会，但面试的时候还是很紧张，导致一些问题即使平常看到过，有印象，但就是答不出来。其次，还是基础不够扎实，对于一个Java开发工程师来说，最基本的Java基础没有掌握牢。对于JVM，GC，尽管之前看了两遍，自认为能够侃侃而谈，但实际上还却只是一知半解。一些基础的算法，即使学习的时候已经理解，但是还是要学会复习，并且需要学会去把控一些算法的细节，如时间、空间复杂度，移动、比较的次数等。</li>
+</ul>
+<p>So，Keep Going~</p>
+<blockquote>
+<p>大部分正义感都是虚伪的 聊胜于无   —————————————沃德彭尤·胡某</p>
+</blockquote>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#自我介绍"><span class="toc-number">1.</span> <span class="toc-text">自我介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自我介绍-1"><span class="toc-number">1.1.</span> <span class="toc-text">自我介绍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目"><span class="toc-number">2.</span> <span class="toc-text">项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单的介绍下你的项目"><span class="toc-number">2.1.</span> <span class="toc-text">简单的介绍下你的项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#讲一讲如何实现断点上传（他问的断点下载，我说我们只实现了断点上传）"><span class="toc-number">2.2.</span> <span class="toc-text">讲一讲如何实现断点上传（他问的断点下载，我说我们只实现了断点上传）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组装的时候你是如何确定分片的顺序的"><span class="toc-number">2.3.</span> <span class="toc-text">组装的时候你是如何确定分片的顺序的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#你为什么要用hibernate框架"><span class="toc-number">2.4.</span> <span class="toc-text">你为什么要用hibernate框架</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java基础"><span class="toc-number">3.</span> <span class="toc-text">Java基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java的基本数据类型有哪些"><span class="toc-number">3.1.</span> <span class="toc-text">Java的基本数据类型有哪些</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#你用过哪些Java的集合类，List和Set有什么区别"><span class="toc-number">3.2.</span> <span class="toc-text">你用过哪些Java的集合类，List和Set有什么区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java的值传递和引用传递能说一说嘛"><span class="toc-number">3.3.</span> <span class="toc-text">Java的值传递和引用传递能说一说嘛</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有用过多线程嘛，线程创建的方式有哪几种，能说说线程池吗"><span class="toc-number">3.4.</span> <span class="toc-text">有用过多线程嘛，线程创建的方式有哪几种，能说说线程池吗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stringbuilder和stringbuff有什么区别"><span class="toc-number">3.5.</span> <span class="toc-text">stringbuilder和stringbuff有什么区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库"><span class="toc-number">4.</span> <span class="toc-text">数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#你熟悉哪些数据库？MySQL有哪些基本的数据类型"><span class="toc-number">4.1.</span> <span class="toc-text">你熟悉哪些数据库？MySQL有哪些基本的数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#那char和varchar的区别是什么？"><span class="toc-number">4.2.</span> <span class="toc-text">那char和varchar的区别是什么？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作系统"><span class="toc-number">5.</span> <span class="toc-text">操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#计算机中除了硬盘之外还有哪些存储结构？"><span class="toc-number">5.1.</span> <span class="toc-text">计算机中除了硬盘之外还有哪些存储结构？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哪个访问速度最快？"><span class="toc-number">5.2.</span> <span class="toc-text">哪个访问速度最快？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法与数据结构"><span class="toc-number">6.</span> <span class="toc-text">算法与数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据结构应该学过吧，你知道哪些数据结构？"><span class="toc-number">6.1.</span> <span class="toc-text">数据结构应该学过吧，你知道哪些数据结构？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#栈和队列有哪些区别？"><span class="toc-number">6.2.</span> <span class="toc-text">栈和队列有哪些区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#能说下二叉平衡树是怎么实现平衡的？"><span class="toc-number">6.3.</span> <span class="toc-text">能说下二叉平衡树是怎么实现平衡的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#你了解过哪些算法？"><span class="toc-number">6.4.</span> <span class="toc-text">你了解过哪些算法？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#你能说说冒泡排序的原理吗"><span class="toc-number">6.5.</span> <span class="toc-text">你能说说冒泡排序的原理吗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#那冒泡排序在最坏的情况下需要移动多少次"><span class="toc-number">6.6.</span> <span class="toc-text">那冒泡排序在最坏的情况下需要移动多少次</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#那么最少呢？"><span class="toc-number">6.7.</span> <span class="toc-text">那么最少呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#让你实现一个函数，从1-…-n，你怎么实现？"><span class="toc-number">6.8.</span> <span class="toc-text">让你实现一个函数，从1+…+n，你怎么实现？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM与GC"><span class="toc-number">7.</span> <span class="toc-text">JVM与GC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#说一说JVM内存模型"><span class="toc-number">7.1.</span> <span class="toc-text">说一说JVM内存模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#能说一说OOM吗"><span class="toc-number">7.2.</span> <span class="toc-text">能说一说OOM吗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#垃圾回收你知道哪几种算法"><span class="toc-number">7.3.</span> <span class="toc-text">垃圾回收你知道哪几种算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标记清除算法能说说么"><span class="toc-number">7.4.</span> <span class="toc-text">标记清除算法能说说么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#那现在标记清楚算法还用吗？"><span class="toc-number">7.5.</span> <span class="toc-text">那现在标记清楚算法还用吗？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#还记的我的名字么"><span class="toc-number">8.</span> <span class="toc-text">还记的我的名字么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#感想"><span class="toc-number">9.</span> <span class="toc-text">感想</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&text=记阿里一次电话面试及感想" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&title=记阿里一次电话面试及感想" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&is_video=false&description=记阿里一次电话面试及感想" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=记阿里一次电话面试及感想&body=Check out this article: https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&title=记阿里一次电话面试及感想" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&title=记阿里一次电话面试及感想" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&title=记阿里一次电话面试及感想" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&title=记阿里一次电话面试及感想" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2018/04/10/%E8%AE%B0%E9%98%BF%E9%87%8C%E4%B8%80%E6%AC%A1%E7%94%B5%E8%AF%9D%E9%9D%A2%E8%AF%95%E5%8F%8A%E6%84%9F%E6%83%B3/&name=记阿里一次电话面试及感想&description=&lt;p&gt;今天大概下午五点的时候接到电话，自称是阿里的，问我现在方便吗。当时正吃完饭走在回实验室的路上，于是让他过半个小时再打给我，他说那我五点四十打你吧。紧张的跑回实验室，对着电脑却不知道该看什么，总觉的这也不了解，那也还没掌握，迷糊了半小时。&lt;/p&gt;
+&lt;p&gt;五点四十，电话准时响起。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 qianhangkang
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'qianhangkang';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="IDEA断点的一些设置">
+<meta name="keywords" content="idea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IDEA DEBUG">
+<meta property="og:url" content="https:&#x2F;&#x2F;cnhkblog.top&#x2F;2019&#x2F;11&#x2F;02&#x2F;IDEA-DEBUG&#x2F;index.html">
+<meta property="og:site_name" content="萍水相逢 互道安好">
+<meta property="og:description" content="IDEA断点的一些设置">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;03&#x2F;01&#x2F;5c78c9496b585.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.jetbrains.com&#x2F;help&#x2F;img&#x2F;idea&#x2F;2018.3&#x2F;icons.general.openDisk.svg@2x.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.jetbrains.com&#x2F;help&#x2F;img&#x2F;idea&#x2F;2018.3&#x2F;icons.general.openDisk.svg@2x.png">
+<meta property="og:updated_time" content="2019-11-02T06:42:27.496Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;03&#x2F;01&#x2F;5c78c9496b585.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>IDEA DEBUG</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/11/02/JDK9%E4%B8%AD%E7%9A%84String%E5%BA%95%E5%B1%82%E6%94%B9%E5%8F%98/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/02/HTML%E8%BD%ACPDF%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&text=IDEA DEBUG" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&title=IDEA DEBUG" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&is_video=false&description=IDEA DEBUG" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=IDEA DEBUG&body=Check out this article: https://cnhkblog.top/2019/11/02/IDEA-DEBUG/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&title=IDEA DEBUG" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&title=IDEA DEBUG" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&title=IDEA DEBUG" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&title=IDEA DEBUG" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&name=IDEA DEBUG&description=&lt;p&gt;IDEA断点的一些设置&lt;/p&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#属性"><span class="toc-number">1.</span> <span class="toc-text">属性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Enabled"><span class="toc-number">1.1.</span> <span class="toc-text">Enabled</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Suspend"><span class="toc-number">1.2.</span> <span class="toc-text">Suspend</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#All"><span class="toc-number">1.2.1.</span> <span class="toc-text">All</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Thread"><span class="toc-number">1.2.2.</span> <span class="toc-text">Thread</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Condition"><span class="toc-number">1.3.</span> <span class="toc-text">Condition</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log"><span class="toc-number">1.4.</span> <span class="toc-text">Log</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Breakpoint-hit"><span class="toc-number">1.4.1.</span> <span class="toc-text">Breakpoint hit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stack-trace"><span class="toc-number">1.4.2.</span> <span class="toc-text">Stack trace</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pass-count"><span class="toc-number">1.5.</span> <span class="toc-text">Pass count</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Evaluate-and-Log"><span class="toc-number">1.6.</span> <span class="toc-text">Evaluate and Log</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Remove-once-hit"><span class="toc-number">1.7.</span> <span class="toc-text">Remove once hit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Disable-until-breakpoint-is-hit"><span class="toc-number">1.8.</span> <span class="toc-text">Disable until breakpoint is hit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Instance-filters"><span class="toc-number">1.9.</span> <span class="toc-text">Instance filters</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Class-filters"><span class="toc-number">1.10.</span> <span class="toc-text">Class filters</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Caller-filters"><span class="toc-number">1.11.</span> <span class="toc-text">Caller filters</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Watches"><span class="toc-number">2.</span> <span class="toc-text">Watches</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        IDEA DEBUG
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">萍水相逢 互道安好</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-11-02T06:41:10.000Z" itemprop="datePublished">2019-11-02</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/idea/" rel="tag">idea</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>IDEA断点的一些设置</p>
+<a id="more"></a>
+
+<p><img src="https://i.loli.net/2019/03/01/5c78c9496b585.png" alt="idea debug"></p>
+<h1 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h1><h2 id="Enabled"><a href="#Enabled" class="headerlink" title="Enabled"></a>Enabled</h2><blockquote>
+<p>Deselect to temporarily disable a breakpoint without removing it from the project. Disabled breakpoints will be skipped during the debugging process.</p>
+</blockquote>
+<p>启用禁用。一般不动</p>
+<h2 id="Suspend"><a href="#Suspend" class="headerlink" title="Suspend"></a>Suspend</h2><blockquote>
+<p>Select to pause the program execution when a breakpoint is hit. Suspending an application is useful if you need to obtain logging information or calculate an expression at a certain point without interrupting the program. If you need to create a <em>master</em> breakpoint that will trigger dependent breakpoints when hit, choose not to suspend the program at that breakpoint.</p>
+</blockquote>
+<p>命中断点后暂停程序</p>
+<h3 id="All"><a href="#All" class="headerlink" title="All"></a>All</h3><blockquote>
+<p>all threads will be suspended</p>
+</blockquote>
+<p>DEFAULT</p>
+<h3 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h3><blockquote>
+<p>only the thread containing this breakpoint will be suspended. If you want the Thread policy to be used as the default one, click the Make default button.</p>
+</blockquote>
+<p>如果想要在多线程中debug每个线程，可以设置该属性。每个包含了该断点的线程都会在此暂停，你可以选择相应的Frames来执行相应的线程，以此控制线程执行的顺序</p>
+<h2 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h2><blockquote>
+<p>Select to specify a condition for hitting a breakpoint. A condition is a Java Boolean expression including a method returning <code>true</code> or <code>false</code>, for example, <code>str1.equals(str2)</code>.This expression must be valid at the line where the breakpoint is set, and it is evaluated each time the breakpoint is hit.If the evaluation result is <code>true</code>, the selected actions are performed.</p>
+</blockquote>
+<p>给命中断点带上特定的条件。传入的条件需要时Java的布尔表达式</p>
+<h2 id="Log"><a href="#Log" class="headerlink" title="Log"></a>Log</h2><blockquote>
+<p>Select if you want to log the following events to console:</p>
+</blockquote>
+<h3 id="Breakpoint-hit"><a href="#Breakpoint-hit" class="headerlink" title="Breakpoint hit"></a>Breakpoint hit</h3><p>命中断点后打日志</p>
+<h3 id="Stack-trace"><a href="#Stack-trace" class="headerlink" title="Stack trace"></a>Stack trace</h3><p>命中断点后打堆栈日志</p>
+<h2 id="Pass-count"><a href="#Pass-count" class="headerlink" title="Pass count"></a>Pass count</h2><blockquote>
+<p>Select if you need a breakpoint to be triggered only after it has been hit a certain number of times. This is useful for debugging loops or methods called several times.</p>
+<p>NOTE: If both the Pass Count and a Condition are set, IntelliJ IDEA first satisfies the condition, and then checks for pass count to avoid conflicts between the two settings.</p>
+</blockquote>
+<p>命中指定次数的断点后才会暂停程序。</p>
+<p>如果同时设置了Condition，IDEA 优先匹配Condition，然后再判断Pass count</p>
+<h2 id="Evaluate-and-Log"><a href="#Evaluate-and-Log" class="headerlink" title="Evaluate and Log"></a>Evaluate and Log</h2><blockquote>
+<p>Select to evaluate an expression when the breakpoint is hit, and show the result in the console output.</p>
+</blockquote>
+<h2 id="Remove-once-hit"><a href="#Remove-once-hit" class="headerlink" title="Remove once hit"></a>Remove once hit</h2><blockquote>
+<p>Select to remove the breakpoint from your project right after it has been hit.</p>
+</blockquote>
+<h2 id="Disable-until-breakpoint-is-hit"><a href="#Disable-until-breakpoint-is-hit" class="headerlink" title="Disable until breakpoint is hit"></a>Disable until breakpoint is hit</h2><blockquote>
+<p>Select the breakpoint that will trigger the current breakpoint. Until that breakpoint is hit, the current breakpoint will be disabled. You can also select if you wish to disable it again or leave it enabled once it has been hit.</p>
+</blockquote>
+<h2 id="Instance-filters"><a href="#Instance-filters" class="headerlink" title="Instance filters"></a>Instance filters</h2><blockquote>
+<p>Select to limit breakpoint hits with particular object instances. Enter instance IDs separated by spaces, or click <img src="https://www.jetbrains.com/help/img/idea/2018.3/icons.general.openDisk.svg@2x.png" alt="browse"> and add them in the Instance Filters dialog.</p>
+</blockquote>
+<p>选择命中特定对象实例的断点。</p>
+<h2 id="Class-filters"><a href="#Class-filters" class="headerlink" title="Class filters"></a>Class filters</h2><blockquote>
+<p>Select to filter classes where the breakpoint must be hit. Either type in the filters, or click <img src="https://www.jetbrains.com/help/img/idea/2018.3/icons.general.openDisk.svg@2x.png" alt="browse"> and configure filters in the Class Filters dialog.You can specify class names or class patterns (strings with the * wildcard). If a filter is specified through a class name, it points at the class itself and all its subclasses. A filter specified through a class pattern points at classes whose fully qualified names match this pattern.</p>
+</blockquote>
+<p>选择命中特定的类。可以使用*匹配模式</p>
+<h2 id="Caller-filters"><a href="#Caller-filters" class="headerlink" title="Caller filters"></a>Caller filters</h2><blockquote>
+<p>Select if you need to stop at a breakpoint only when it is called (or NOT called) from a certain method. Either type in the caller methods, or click and configure filters in the</p>
+<p>Caller Filters dialog.</p>
+<p>You can specify method names or method patterns (strings with the * wildcard).</p>
+</blockquote>
+<p>选择是否只有在某个方法调用（或未调用）时才需要在断点处停止。</p>
+<h1 id="Watches"><a href="#Watches" class="headerlink" title="Watches"></a>Watches</h1><p>可以在watches里动态的改变变量或表达式的值</p>
+<blockquote>
+<p><em>大部分正义感都是虚伪的 聊胜于无   —————————————————————————沃德彭尤·胡某</em></p>
+</blockquote>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#属性"><span class="toc-number">1.</span> <span class="toc-text">属性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Enabled"><span class="toc-number">1.1.</span> <span class="toc-text">Enabled</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Suspend"><span class="toc-number">1.2.</span> <span class="toc-text">Suspend</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#All"><span class="toc-number">1.2.1.</span> <span class="toc-text">All</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Thread"><span class="toc-number">1.2.2.</span> <span class="toc-text">Thread</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Condition"><span class="toc-number">1.3.</span> <span class="toc-text">Condition</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Log"><span class="toc-number">1.4.</span> <span class="toc-text">Log</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Breakpoint-hit"><span class="toc-number">1.4.1.</span> <span class="toc-text">Breakpoint hit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stack-trace"><span class="toc-number">1.4.2.</span> <span class="toc-text">Stack trace</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pass-count"><span class="toc-number">1.5.</span> <span class="toc-text">Pass count</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Evaluate-and-Log"><span class="toc-number">1.6.</span> <span class="toc-text">Evaluate and Log</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Remove-once-hit"><span class="toc-number">1.7.</span> <span class="toc-text">Remove once hit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Disable-until-breakpoint-is-hit"><span class="toc-number">1.8.</span> <span class="toc-text">Disable until breakpoint is hit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Instance-filters"><span class="toc-number">1.9.</span> <span class="toc-text">Instance filters</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Class-filters"><span class="toc-number">1.10.</span> <span class="toc-text">Class filters</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Caller-filters"><span class="toc-number">1.11.</span> <span class="toc-text">Caller filters</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Watches"><span class="toc-number">2.</span> <span class="toc-text">Watches</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&text=IDEA DEBUG" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&title=IDEA DEBUG" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&is_video=false&description=IDEA DEBUG" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=IDEA DEBUG&body=Check out this article: https://cnhkblog.top/2019/11/02/IDEA-DEBUG/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&title=IDEA DEBUG" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&title=IDEA DEBUG" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&title=IDEA DEBUG" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&title=IDEA DEBUG" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2019/11/02/IDEA-DEBUG/&name=IDEA DEBUG&description=&lt;p&gt;IDEA断点的一些设置&lt;/p&gt;" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 qianhangkang
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'qianhangkang';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

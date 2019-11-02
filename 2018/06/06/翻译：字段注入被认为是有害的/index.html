@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="平常使用@Autowired时IDEA总是会提醒  field injection is not recommended.Spring teams recommends: Always use constructor based dependency injection in your beans. Always use assertions for mandatory dependencies.">
+<meta name="keywords" content="Java,Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="翻译：字段注入被认为是有害的">
+<meta property="og:url" content="https:&#x2F;&#x2F;cnhkblog.top&#x2F;2018&#x2F;06&#x2F;06&#x2F;%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84&#x2F;index.html">
+<meta property="og:site_name" content="萍水相逢 互道安好">
+<meta property="og:description" content="平常使用@Autowired时IDEA总是会提醒  field injection is not recommended.Spring teams recommends: Always use constructor based dependency injection in your beans. Always use assertions for mandatory dependencies.">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-02T07:29:02.736Z">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>翻译：字段注入被认为是有害的</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/06/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/06/02/HikariCp%E4%B8%8EDruid%E7%9A%84%E4%BA%A4%E9%94%8B/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&text=翻译：字段注入被认为是有害的" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&title=翻译：字段注入被认为是有害的" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&is_video=false&description=翻译：字段注入被认为是有害的" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=翻译：字段注入被认为是有害的&body=Check out this article: https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&title=翻译：字段注入被认为是有害的" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&title=翻译：字段注入被认为是有害的" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&title=翻译：字段注入被认为是有害的" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&title=翻译：字段注入被认为是有害的" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&name=翻译：字段注入被认为是有害的&description=&lt;p&gt;平常使用&lt;code&gt;@Autowired&lt;/code&gt;时IDEA总是会提醒&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;field injection is not recommended.&lt;strong&gt;Spring teams recommends&lt;/strong&gt;: &lt;em&gt;Always use constructor based dependency injection in your beans. Always use assertions for mandatory dependencies.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;why……&lt;/p&gt;
+&lt;p&gt;本文主要翻译了外国大佬的一篇文章——参考链接第一条&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#字段注入被认为是有害的"><span class="toc-number">1.</span> <span class="toc-text">字段注入被认为是有害的</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注入类型"><span class="toc-number">1.1.</span> <span class="toc-text">注入类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#构造器注入"><span class="toc-number">1.1.1.</span> <span class="toc-text">构造器注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setter注入"><span class="toc-number">1.1.2.</span> <span class="toc-text">setter注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字段注入"><span class="toc-number">1.1.3.</span> <span class="toc-text">字段注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#哪里不对了？"><span class="toc-number">1.2.</span> <span class="toc-text">哪里不对了？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#违反单一责任原则"><span class="toc-number">1.2.1.</span> <span class="toc-text">违反单一责任原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#依赖隐藏"><span class="toc-number">1.2.2.</span> <span class="toc-text">依赖隐藏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DI-容器的耦合"><span class="toc-number">1.2.3.</span> <span class="toc-text">DI 容器的耦合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不变形"><span class="toc-number">1.2.4.</span> <span class="toc-text">不变形</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造器注入-vs-Setter注入"><span class="toc-number">1.3.</span> <span class="toc-text">构造器注入 vs Setter注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#setter注入-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">setter注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造器注入-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">构造器注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-number">1.4.</span> <span class="toc-text">结论</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">2.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        翻译：字段注入被认为是有害的
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">萍水相逢 互道安好</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-06-06T09:05:04.000Z" itemprop="datePublished">2018-06-06</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Java/" rel="tag">Java</a>, <a class="tag-link" href="/tags/Spring/" rel="tag">Spring</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>平常使用<code>@Autowired</code>时IDEA总是会提醒</p>
+<blockquote>
+<p>field injection is not recommended.<strong>Spring teams recommends</strong>: <em>Always use constructor based dependency injection in your beans. Always use assertions for mandatory dependencies.</em></p>
+</blockquote>
+<p>why……</p>
+<p>本文主要翻译了外国大佬的一篇文章——参考链接第一条</p>
+<a id="more"></a>
+
+<h1 id="字段注入被认为是有害的"><a href="#字段注入被认为是有害的" class="headerlink" title="字段注入被认为是有害的"></a>字段注入被认为是有害的</h1><p>字段注入是依赖注入框架中非常流行的一种实践，比如Spring。但是，它有几个严重的问题，通常应该避免。</p>
+<h2 id="注入类型"><a href="#注入类型" class="headerlink" title="注入类型"></a>注入类型</h2><p>有三种主要方法可以将你的依赖注入到你的类中。构造函数，Setter（方法）和Field注入。下面我们快速比较下使用这三种方法来注入的相同依赖的代码。</p>
+<h3 id="构造器注入"><a href="#构造器注入" class="headerlink" title="构造器注入"></a>构造器注入</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> DependencyA dependencyA;</span><br><span class="line"><span class="keyword">private</span> DependencyB dependencyB;</span><br><span class="line"><span class="keyword">private</span> DependencyC dependencyC;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">DI</span><span class="params">(DependencyA dependencyA, DependencyB dependencyB, DependencyC dependencyC)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.dependencyA = dependencyA;</span><br><span class="line">    <span class="keyword">this</span>.dependencyB = dependencyB;</span><br><span class="line">    <span class="keyword">this</span>.dependencyC = dependencyC;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="setter注入"><a href="#setter注入" class="headerlink" title="setter注入"></a>setter注入</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> DependencyA dependencyA;</span><br><span class="line"><span class="keyword">private</span> DependencyB dependencyB;</span><br><span class="line"><span class="keyword">private</span> DependencyC dependencyC;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDependencyA</span><span class="params">(DependencyA dependencyA)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.dependencyA = dependencyA;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDependencyB</span><span class="params">(DependencyB dependencyB)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.dependencyB = dependencyB;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDependencyC</span><span class="params">(DependencyC dependencyC)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.dependencyC = dependencyC;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="字段注入"><a href="#字段注入" class="headerlink" title="字段注入"></a>字段注入</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> DependencyA dependencyA;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> DependencyB dependencyB;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> DependencyC dependencyC;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="哪里不对了？"><a href="#哪里不对了？" class="headerlink" title="哪里不对了？"></a>哪里不对了？</h2><p>正如你所看到的，使用字段注入的方式看起来非常棒。它非常简短，没有 boilerplate code(不重要的但是又不得不写的代码，有点像一个POJO里的getter与setter方法。详见<a href="https://en.wikipedia.org/wiki/Boilerplate_code" target="_blank" rel="noopener">wiki</a>)。该代码易于阅读和导航。你的类可以专注于重要的事情，并且不受 DI(Dependency Injection) boilerplate 的污染。您只需将@Autowired注释放在字段上方即可。这种方式没有特殊的构造函数或setter方法，而这些方法只为了DI容器提供您的依赖关系。Java是非常冗长的，因此欢迎各种缩短代码的机会，对吧？</p>
+<h3 id="违反单一责任原则"><a href="#违反单一责任原则" class="headerlink" title="违反单一责任原则"></a>违反单一责任原则</h3><p>添加新的依赖关系非常简单。也许太容易了。添加六个，十个甚至十几个依赖关系是没有问题的。当你使用DI的构造函数时，在某个点之后，构造函数参数的数量变得太高，并且很明显有些事情是错误的。拥有太多的依赖通常意味着这个类有太多的责任。这可能违反了单一责任原则和关注点分离，并且这是一个很好的指示器，说明该类需要进一步检查和可能的重构。当直接注入字段时没有这样的警示，因为这种方法可以无限缩放。</p>
+<h3 id="依赖隐藏"><a href="#依赖隐藏" class="headerlink" title="依赖隐藏"></a>依赖隐藏</h3><p>使用DI容器意味着类不再负责管理自己的依赖关系。此时获取依赖的责任就是从类中提取。其他人现在负责提供依赖项 - DI容器或在测试中手动分配它们。当类不再负责获取它的依赖关系时，它应该使用公共接口 - 方法或构造函数清楚地传达它们。这样就清楚了类的要求，以及它是可选的(setters)还是强制的(构造函数)。</p>
+<h3 id="DI-容器的耦合"><a href="#DI-容器的耦合" class="headerlink" title="DI 容器的耦合"></a>DI 容器的耦合</h3><p>DI框架的核心思想之一是托管类不应该依赖于所使用的DI容器。换句话说，它应该只是一个普通的POJO，它可以独立实例化，只要您传递所有必需的依赖关系即可。通过这种方式，您可以在单元测试中实例化它，而无需启动DI容器并单独进行测试（使用集成度较高的容器进行集成测试）。如果没有容器耦合，则可以让类用被管理或不被管理，甚至可以切换到新的DI框架。</p>
+<p>但是，当直接注入字段时，这不会提供直接实例化具有所有必需依赖项的类的方法。这意味着：</p>
+<ul>
+<li>有一种方法（通过调用默认构造函数） 在缺少某些强制协作者的情况下使用<em>new</em>创建对象，并且使用将导致NullPointerException。</li>
+<li>这样的类不能在DI容器（测试，其他模块）之外重复使用，因为除<strong>反射</strong>之外没有办法为它提供所需的依赖关系。</li>
+</ul>
+<p>这里引入知乎<a href="https://www.zhihu.com/people/cxfree" target="_blank" rel="noopener">大头菜</a>的一段解释</p>
+<blockquote>
+<p>例如A依赖B, 当想暂时脱离spring容器用mock出来的B测试A时, 实例化A之后注入B, 对于其他两种注入方式很简单, 但如果是字段注入的话, 要通过反射才能注入B.</p>
+</blockquote>
+<h3 id="不变形"><a href="#不变形" class="headerlink" title="不变形"></a>不变形</h3><p>与构造函数不同，字段注入不能用于将依赖关系指定给最终字段，从而有效地将对象渲染为可变的。</p>
+<p>（尼玛，好难理解）</p>
+<h2 id="构造器注入-vs-Setter注入"><a href="#构造器注入-vs-Setter注入" class="headerlink" title="构造器注入 vs Setter注入"></a>构造器注入 vs Setter注入</h2><p>所以字段注射不像是行得通的方法。那么还剩下什么？Setter和构造函数。哪一个应该使用？</p>
+<h3 id="setter注入-1"><a href="#setter注入-1" class="headerlink" title="setter注入"></a>setter注入</h3><p>应使用Setter来注入可选的依赖项。没有提供时，class应该能够运作。对象实例化后，随时可以更改依赖关系。取决于具体情况，这可能不是一个好处。有时需要拥有一个不可变的对象。有时在运行时更改对象的协作者是很好的 - 例如JMX托管的MBean。</p>
+<p><a href="http://docs.spring.io/spring/docs/3.1.x/spring-framework-reference/html/beans.html#d0e2778" target="_blank" rel="noopener">Spring 3.x文档</a>的官方建议鼓励在构造函数上使用setter：</p>
+<blockquote>
+<p>Spring团队通常主张setter注入，因为大量的构造函数参数可能会变得笨拙，特别是当其中有些参数是可选的时候。Setter方法也使该类的对象可以重新配置或稍后重新注入。通过<a href="http://docs.spring.io/spring/docs/3.1.x/spring-framework-reference/html/jmx.html" target="_blank" rel="noopener">JMX MBeans进行</a>管理是一个引人注目的用例。</p>
+<p>一些纯粹主义者喜欢基于构造函数的注入。提供所有对象依赖性意味着对象总是以完全初始化的状态返回给客户端（调用）代码。缺点是物体变得不适合重新配置和重新注入。</p>
+</blockquote>
+<h3 id="构造器注入-1"><a href="#构造器注入-1" class="headerlink" title="构造器注入"></a>构造器注入</h3><p>构造器注入对于强制性依赖是有利的。那些，这是对象正常运行所必需的。通过在构造函数中提供这些对象，可以确保该对象在构建时即可使用。在构造函数中分配的字段也可以是final，从而允许该对象完全不可变或至少保护其必需的字段。</p>
+<p>使用构造函数提供依赖关系的一个后果是，以这种方式构造的两个对象之间的循环依赖变得不可能（与setter注入不同）。这实际上是一件好事，而不是限制，因为应该避免循环依赖，循环依赖通常来说是坏设计的标志。这样可以防止这种做法。</p>
+<p>另一个优点是，如果使用spring 4.3+，则可以将您的类与DI框架完全分离。原因是Spring现在支持一个构造函数场景的<a href="https://spring.io/blog/2016/03/04/core-container-refinements-in-spring-framework-4-3" target="_blank" rel="noopener">隐式构造函数注入</a>（类似上面的构造器注入）。这意味着你不再需要在你的类中使用DI注解。当然，你可以通过在给定类的spring配置文件中明确配置DI来达到同样的效果，这只会让这一切变得更容易。</p>
+<p>从Spring 4.x开始，官方的<a href="http://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/beans.html#beans-constructor-injection" target="_blank" rel="noopener">Spring文档</a>更改了，setter注入的建议不再被官方提倡，取而代之的是构造器注入：</p>
+<blockquote>
+<p>Spring团队通常提倡构造器注入，因为它使得可以将应用程序组件实现为<em>不可变对象，</em>并确保所需的依赖项不为空。此外，构造器注入的组件总是返回到处于完全初始化状态的客户端（调用）代码。作为一个侧面说明，大量的构造函数参数是一种<em>bad code smell</em>，这意味着该类可能有太多的责任，应该重构以更好地解决问题的分离问题。</p>
+<p>Setter注入主要只应用于可选的依赖关系，这些依赖关系可以在类中分配合理的默认值。否则，必须在代码使用依赖关系的任何地方执行非空检查。setter注入的一个好处是setter方法使得该类的对象可以重新配置或稍后重新注入。</p>
+</blockquote>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>最好避免字段注入。作为替代，您应该使用构造函数或setter方法来注入您的依赖关系。两者都有其优点和缺点，使用情况取决于具体情况。但是，由于这些方法可以混合使用，所以它不是一种二选一的选择，您可以在一个类中同时使用setter和构造函数注入。构造函数更适合于强制性的依赖关系以及旨在提供不变性的时候。Setter更适合可选的依赖项。</p>
+<p>同时引入知乎<a href="https://www.zhihu.com/people/lqdxzhq" target="_blank" rel="noopener">赵翰青</a>的一段回答：</p>
+<blockquote>
+<p><strong>Field injection:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">++ less code to write</span><br><span class="line">-- unsafe code</span><br><span class="line"> - more complicated to test</span><br></pre></td></tr></table></figure>
+
+<p><strong>Constructor injection:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">++ safe code</span><br><span class="line"> - more code to write (see the hint to Lombok)</span><br><span class="line"> + easy to test</span><br></pre></td></tr></table></figure>
+
+<p>虽然官方推荐Constructor injection，个人更喜欢Field injection。原因如下：</p>
+<p>更少的代码</p>
+<p>约定优于配置，都用Field injection也很安全</p>
+<p>用spring做单元测试field injection并不复杂</p>
+</blockquote>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://www.vojtechruzicka.com/field-dependency-injection-considered-harmful/" target="_blank" rel="noopener">https://www.vojtechruzicka.com/field-dependency-injection-considered-harmful/</a></p>
+<p><a href="https://www.zhihu.com/question/52220502" target="_blank" rel="noopener">https://www.zhihu.com/question/52220502</a></p>
+<blockquote>
+<p><em>大部分正义感都是虚伪的 聊胜于无   —————————————沃德彭尤·胡某</em></p>
+</blockquote>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#字段注入被认为是有害的"><span class="toc-number">1.</span> <span class="toc-text">字段注入被认为是有害的</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注入类型"><span class="toc-number">1.1.</span> <span class="toc-text">注入类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#构造器注入"><span class="toc-number">1.1.1.</span> <span class="toc-text">构造器注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setter注入"><span class="toc-number">1.1.2.</span> <span class="toc-text">setter注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字段注入"><span class="toc-number">1.1.3.</span> <span class="toc-text">字段注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#哪里不对了？"><span class="toc-number">1.2.</span> <span class="toc-text">哪里不对了？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#违反单一责任原则"><span class="toc-number">1.2.1.</span> <span class="toc-text">违反单一责任原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#依赖隐藏"><span class="toc-number">1.2.2.</span> <span class="toc-text">依赖隐藏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DI-容器的耦合"><span class="toc-number">1.2.3.</span> <span class="toc-text">DI 容器的耦合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不变形"><span class="toc-number">1.2.4.</span> <span class="toc-text">不变形</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造器注入-vs-Setter注入"><span class="toc-number">1.3.</span> <span class="toc-text">构造器注入 vs Setter注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#setter注入-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">setter注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造器注入-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">构造器注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-number">1.4.</span> <span class="toc-text">结论</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-number">2.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&text=翻译：字段注入被认为是有害的" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&title=翻译：字段注入被认为是有害的" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&is_video=false&description=翻译：字段注入被认为是有害的" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=翻译：字段注入被认为是有害的&body=Check out this article: https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&title=翻译：字段注入被认为是有害的" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&title=翻译：字段注入被认为是有害的" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&title=翻译：字段注入被认为是有害的" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&title=翻译：字段注入被认为是有害的" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://cnhkblog.top/2018/06/06/%E7%BF%BB%E8%AF%91%EF%BC%9A%E5%AD%97%E6%AE%B5%E6%B3%A8%E5%85%A5%E8%A2%AB%E8%AE%A4%E4%B8%BA%E6%98%AF%E6%9C%89%E5%AE%B3%E7%9A%84/&name=翻译：字段注入被认为是有害的&description=&lt;p&gt;平常使用&lt;code&gt;@Autowired&lt;/code&gt;时IDEA总是会提醒&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;field injection is not recommended.&lt;strong&gt;Spring teams recommends&lt;/strong&gt;: &lt;em&gt;Always use constructor based dependency injection in your beans. Always use assertions for mandatory dependencies.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;why……&lt;/p&gt;
+&lt;p&gt;本文主要翻译了外国大佬的一篇文章——参考链接第一条&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 qianhangkang
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2e6da3c375c8a87f5b664cea6d4cb29c";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'qianhangkang';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
